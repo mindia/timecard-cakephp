@@ -1,0 +1,3 @@
+[submodule "app/Plugin/Heroku"]
+	path = app/Plugin/Heroku
+	url = https://github.com/yandod/cakephp-heroku-plugin.git
