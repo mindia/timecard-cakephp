@@ -38,5 +38,28 @@ class AppController extends Controller {
 	  'Form',  
 	  'Paginator',  
 	);  
-	public $layout = 'default';  
+	public $layout = 'default';
+	public $components = [
+		'Session',
+		'Cookie',
+		'Auth' => [
+		    'loginAction' => [
+		        'controller' => 'users',
+		        'action' => 'sign_in',
+		    ],
+		    'loginRedirect' => ['controller' => 'projects', 'action' => 'index'],
+		    'authError' => 'Did you really think you are allowed to see that?',
+		    'authenticate' => [
+		        'Form' => [
+		           'fields' => ['username' => 'email', 'password'=>'encrypted_password'],
+		           'passwordHasher' => [
+                    'className' => 'Simple',
+                    'hashType' => 'sha256'
+               	]
+		        ]
+		    ]
+		]
+	]; 
+
+	public function beforeFilter(){}
 }
