@@ -1,6 +1,6 @@
 <?php
-
 App::uses('Member','Model');
+
 class Project extends AppModel
 {
 	public $validate = [
