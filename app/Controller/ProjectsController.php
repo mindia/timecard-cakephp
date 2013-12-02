@@ -17,8 +17,8 @@ class ProjectsController extends AppController {
 		$this->set("projects", $projects);
 		$this->set('project_users', $this->User->fundProjectUserName($projects));
 	}
-	public function show()
 
+	public function show()
 	{
 		$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->params['id']]]);
 
@@ -28,7 +28,7 @@ class ProjectsController extends AppController {
 		$this->set("project", $project);
 		$this->set("issues", $issues);
 	}
-	
+
 	public function registration()
 	{
 		$this->render('new');
