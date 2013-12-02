@@ -70,13 +70,13 @@ class AppController extends Controller {
 		{
 			//todo get users
 			$current_user = $this->User->find('first', [
-				'fields' => ['User.id', 'User.email', 'User.username'],
+				'fields' => ['User.id', 'User.email', 'User.name'],
 				'conditions' => ['User.email' => $auth_user['email'],
 				]
 			]);
 		}
 		$this->set('is_login', ($current_user)? true:false );
 		$this->set('current_user', $current_user);
-		
+		$this->Session->write('current_user', $current_user);
 	}
 }
