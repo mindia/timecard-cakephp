@@ -45,9 +45,27 @@
 		    </div>
 		    <div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
+					<?php if($is_login):?>
+					<li>
+						<?php echo $this->Html->link("Projects", '/projects'); ?>
+					</li>
+					<li>
+						<?php echo $this->Html->link("Me", '/users/'. $current_user['User']['id']); ?>
+					</li>
+					<li>
+						<?php echo $this->Html->link("Account settings", '/users/edit'); ?>
+					</li>
+					<li>
+						<?php echo $this->Html->link("Import", '/data'); ?>
+					</li>
+					<li>
+						<?php echo $this->Html->link("Logout", '/users/sign_out'); ?>
+					</li>
+					<?php else:?>
 					<li>
 						<?php echo $this->Html->link("Login", '/users/sign_in'); ?>
 					</li>
+					<?php endif; ?>
 				</ul>
 		    </div>
 		</div>

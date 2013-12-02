@@ -61,5 +61,22 @@ class AppController extends Controller {
 		]
 	]; 
 
-	public function beforeFilter(){}
+	public $uses = ['User'];
+	public function beforeFilter()
+	{
+		$auth_user = $this->Auth->user();
+		$current_user = null;
+		if( !is_null($auth_user) )
+		{
+			//todo get users
+			$current_user = $this->User->find('first', [
+				'fields' => ['User.id', 'User.email', 'User.username'],
+				'conditions' => ['User.email' => $auth_user['email'],
+				]
+			]);
+		}
+		$this->set('is_login', ($current_user)? true:false );
+		$this->set('current_user', $current_user);
+		
+	}
 }
