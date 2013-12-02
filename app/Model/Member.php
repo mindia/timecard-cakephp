@@ -11,7 +11,7 @@ class Member extends AppModel
 		$this->data[$this->alias]['created_at'] = $this->data[$this->alias]['updated_at'] 
 	    	= date('Y-m-d H:i:s');
 	}
-	
+
 	public function isAdmin($user_id, $project_id)
 	{
 		$res = $this->find('first', ['conditions'=>['user_id'=>$user_id, 'project_id'=>$project_id], 'fields'=>"is_admin"]);
