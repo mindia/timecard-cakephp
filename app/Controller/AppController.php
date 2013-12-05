@@ -38,5 +38,45 @@ class AppController extends Controller {
 	  'Form',  
 	  'Paginator',  
 	);  
-	public $layout = 'default';  
+	public $layout = 'default';
+	public $components = [
+		'Session',
+		'Cookie',
+		'Auth' => [
+		    'loginAction' => [
+		        'controller' => 'users',
+		        'action' => 'sign_in',
+		    ],
+		    'loginRedirect' => ['controller' => 'projects', 'action' => 'index'],
+		    'authError' => 'Did you really think you are allowed to see that?',
+		    'authenticate' => [
+		        'Form' => [
+		           'fields' => ['username' => 'email', 'password'=>'encrypted_password'],
+		           'passwordHasher' => [
+                    'className' => 'Simple',
+                    'hashType' => 'sha256'
+               	]
+		        ]
+		    ]
+		]
+	]; 
+
+	public $uses = ['User'];
+	public function beforeFilter()
+	{
+		$auth_user = $this->Auth->user();
+		$current_user = null;
+		if( !is_null($auth_user) )
+		{
+			//todo get users
+			$current_user = $this->User->find('first', [
+				'fields' => ['User.id', 'User.email', 'User.username'],
+				'conditions' => ['User.email' => $auth_user['email'],
+				]
+			]);
+		}
+		$this->set('is_login', ($current_user)? true:false );
+		$this->set('current_user', $current_user);
+		
+	}
 }
