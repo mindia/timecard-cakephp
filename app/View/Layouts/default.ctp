@@ -30,31 +30,51 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<?php
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+		echo $this->Html->css('bootstrap.min');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
 </head>
-<body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link("Timecard", '/projects'); ?></h1>
+<body class="<?php echo $this->name ?>" data-timer="" >
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1=collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<?php echo $this->Html->link("Timecard", '/', array('class'=> 'navbar-brand', 'data-no-turbolink'=>'1')); ?>
+			</div>
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
+					<?php if ($user_signed_in): ?>
+						<li><?php echo $this->Html->link("Project", '/projects'); ?></li>
+						<li><?php echo $this->Html->link("Me", '/projects'); ?></li>
+						<li><?php echo $this->Html->link("Account setting", '/projects'); ?></li>
+						<li><?php echo $this->Html->link("Import", '/projects'); ?></li>
+						<li><?php echo $this->Html->link("Logout", '/projects', array('method'=>'delete')); ?></li>
+					<?php else: ?>
+						<li><?php echo $this->Html->link("Login", '/projects'); ?></li>
+					<?php endif;?>
+				</ul>
+			</div>
 		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div id='header'></div>
+			<div class="col-lg-12 col-md-12">
+				<div id="running-user"><?php echo $this->element('running') ?></div>
+				<?php if ($notice): ?><div class="aler alert-success"><?php echo $notice ?><?php endif;?></div>
+				<?php if ($alert): ?><div class="aler alert-danger"><?php echo $alert ?><?php endif; ?></div>
+				<?php echo $this->fetch('content'); ?>
+			</div>
 		<div id="content">
-
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
 		</div>
 	</div>
 	<?php echo $this->element('sql_dump'); ?>

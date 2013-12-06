@@ -1,3 +1,9 @@
 [submodule "app/Plugin/Heroku"]
 	path = app/Plugin/Heroku
 	url = https://github.com/yandod/cakephp-heroku-plugin.git
+[submodule "app/Plugin/Migrations"]
+	path = app/Plugin/Migrations
+	url = git://github.com/CakeDC/migrations.git
+[submodule "app/Plugin/BoostCake"]
+	path = app/Plugin/BoostCake
+	url = https://github.com/slywalker/cakephp-plugin-boost_cake.git

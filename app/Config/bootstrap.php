@@ -116,4 +116,6 @@ if (file_exists($localConfig)){
 if(Configure::read('is_heroku')){
   CakePlugin::load('Heroku',array('bootstrap' => true));
 }
+CakePlugin::load(array('Migrations'));
+CakePlugin::load('BoostCake');
 
