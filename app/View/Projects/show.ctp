@@ -35,6 +35,24 @@ echo $this->Html->link(
 	<?php endif?>
 </div>
 
+
+<h3>
+  Issue
+  <?php if( $project['Project']['status'] == Configure::read('STATUS_ACTIVE') ): ?>
+    <?php if ($this->App->is_member($current_user['User'], $project['Member']) ): ?>
+      <a href="/projects/<?php echo $project['Project']['id'] ?>/issues/new" class="btn btn-xs btn-default">Add a issue</a>
+    <?php endif ?>
+  <?php endif ?>
+</h3>
+<div class="btn-group btn-group-sm" style="margin-bottom:10px">
+	<a href="/issues/?project_id=<?php echo $project['Project']['id']?>&status=open" class="btn btn-default" data-remote="true">Open</a>
+	<a href="/issues/?project_id=<?php echo $project['Project']['id']?>&status=closed" class="btn btn-default" data-remote="true">Closed</a>
+	<a href="/issues/?project_id=<?php echo $project['Project']['id']?>&status=not_do_today" class="btn btn-default" data-remote="true">Don't do today</a>
+</div>
+<div id="issues" class="media-list">
+	<?php echo $this->element('Issues/list') ?>
+</div>
+
 <div class="row">
 
 </div>

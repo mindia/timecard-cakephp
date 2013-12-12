@@ -17,15 +17,16 @@ class ProjectsController extends AppController {
 		$this->set("projects", $projects);
 		$this->set('project_users', $this->User->fundProjectUserName($projects));
 	}
+	public function show()
 
-
-	public function show($id)
 	{
-		$project = $this->Project->find('first', ['conditions'=>['id'=>$id]]);
+		$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->params['id']]]);
+
 		//todo ; find (issue, comment, workload)
-		//$issues = $this->Issue->find('all', ['conditions'=>['project_id'=>$id], 'order'=>'updated_at DESC', 'limit'=>10]);
+		$issues = $this->Project->Issue->find('all', ['conditions'=>['Project.id'=>$this->request->params['id'], 'Issue.status'=>1]]);
 		//$comments = $this->Comment->find('all', ['conditions'=>['project_id'=>$id]]);
 		$this->set("project", $project);
+		$this->set("issues", $issues);
 	}
 	
 	public function registration()
