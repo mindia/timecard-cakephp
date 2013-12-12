@@ -43,6 +43,7 @@
 	  <?php echo nl2br($issue['Project']['description']) ?>
 	</div>
 </div>
+
 <?php //todo comment & workload display?>
 <div class="row">
 	<div class="col-lg-6">
@@ -82,3 +83,4 @@
 	</div>
 </div>
 <?php //todo comment & workload display?>
+
