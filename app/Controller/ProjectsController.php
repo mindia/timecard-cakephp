@@ -18,7 +18,6 @@ class ProjectsController extends AppController {
 		$this->set('project_users', $this->User->fundProjectUserName($projects));
 	}
 
-
 	public function show()
 	{
 		$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->params['id']]]);

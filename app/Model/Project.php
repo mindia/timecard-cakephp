@@ -19,7 +19,6 @@ class Project extends AppModel
 	public $hasMany = [
         'Member' => [
             'className'  => 'Member',
-
         ],
         'Issue' => [
             'className'  => 'Issue',

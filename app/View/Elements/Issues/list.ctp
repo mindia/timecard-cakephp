@@ -6,10 +6,17 @@ You don't have assigned issue.
 		<div id="issue_<?php echo $issue['Issue']['id'] ?>" class="issue media">
 			<div class="pull-left">
 				<div class="issue-subject">
+<<<<<<< HEAD
 					<a href="/issues/<?php echo $issue['Issue']['id'] ?>"><b><?php echo h($issue['Issue']['subject']) ?></b></a>
 				</div>
 				<div class="issue-author">
 					Opend by <?php echo $issue['Author']['name'] ?> <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
+=======
+					<a href="/issues/<?php echo $issue['Issue']['id'] ?>"><?php echo h($issue['Issue']['subject']) ?></a>
+				</div>
+				<div class="issue-author">
+					Opend by <?php echo $issue['Author']['username'] ?> <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
+>>>>>>> iss-14 projectにissueを登録できるようにする
 				</div>
 				<div class="issue-status">
 				<?php if((int)$issue['Issue']['status'] === 1):?>
