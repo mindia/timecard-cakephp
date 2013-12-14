@@ -2,7 +2,7 @@
 App::uses('AppController', 'Controller');
 
 class IssuesController extends AppController {
-	public $uses = ['Project', 'Member', 'User', 'Issue'];
+	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment'];
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
@@ -12,8 +12,10 @@ class IssuesController extends AppController {
 	{
 		$issue = $this->Issue->find('first', ['conditions'=>['Issue.id'=>$this->request->params['id']]]);
 		$project_member = $this->Project->find('first', ['conditions'=>['Project.id'=>$issue['Project']['id']]]);
+		$comment_user = $this->Comment->find('all', ['conditions'=>['Issue.id'=>$issue['Issue']['id']]]);
 		$this->set('issue', $issue);
 		$this->set('project_member', $project_member);
+		$this->set('comment_user', $comment_user);
 	}
 
 	public function registration()
