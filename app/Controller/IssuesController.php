@@ -2,7 +2,6 @@
 App::uses('AppController', 'Controller');
 
 class IssuesController extends AppController {
-
 	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment'];
 	public function beforeFilter()
 	{
