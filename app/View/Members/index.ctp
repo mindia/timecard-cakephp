@@ -9,6 +9,7 @@
 		<ul>
 			<?php foreach($members as $member):?>
 			<li>
+
 				<?php echo $member['User']['name'] ?>
 				<?php if(!$this->App->is_admin($member['User'], $project['Member'])):?>
 				<a href="/members/<?php echo $member['User']['id']?>" class="btn btn-xs btn-danger btn-delete-member" confirm="Are you sure?" data-id="<?php echo $member['Member']['id']?>">Delete</a>
