@@ -38,6 +38,7 @@
 
 	Router::connect('/projects/:id/issues/new', array('controller' => 'issues', 'action' => 'registration'), array('id' => '[0-9]+'));
 	Router::connect('/projects/:id/issues/create', array('controller' => 'issues', 'action' => 'create'), array('id' => '[0-9]+'));
+	Router::connect('/projects/:id/members', array('controller' => 'members', 'action' => 'index'), array('id' => '[0-9]+'));
 	Router::connect('/issues/:id', array('controller' => 'issues', 'action' => 'show'), array('id' => '[0-9]+'));
 	Router::connect('/issues/:id/comment', array('controller' => 'comments', 'action' => 'create'), array('id' => '[0-9]+'));
 /**
