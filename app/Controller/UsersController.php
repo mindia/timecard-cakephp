@@ -46,4 +46,25 @@ class UsersController extends AppController {
 		$this->Session->setFlash(__('You need to sign in or sign up before continuing.'));
 		$this->redirect($this->Auth->logout());
 	}
+
+	public function edit()
+	{
+		if ($this->request->is('post')){
+			$this->User->unbindValidation('remove', ['encrypted_password'], true);
+			$this->User->unbindValidation('remove', ['password_confirmation'], true);
+			
+			$auth_user = $this->Auth->user();
+			if ($auth_user['email'] == $this->request->data['User']['email'] ) {
+				unset($this->User->validate['email']['isUnique']);
+			}
+			if ($this->User->save($this->request->data)){
+				$this->Session->setFlash('You updated your account successfully.');
+##todo
+				return $this->redirect('/users/edit');
+			} else {
+				$this->Session->setFlash('do not updated!!');
+				$this->log("validationErrors=" . var_export($this->User->validationErrors, true));
+			}
+		}
+	}
 }
