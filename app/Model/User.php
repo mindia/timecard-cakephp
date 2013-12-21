@@ -16,7 +16,7 @@ class User extends AppModel {
               'message' => '既に登録されているメールアドレスです。'
            ]
        ],
-       'username' => [
+       'name' => [
 			'required' => [
               'rule' => ['notEmpty'],
               'message' => 'name is required'
