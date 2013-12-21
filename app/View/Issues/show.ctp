@@ -2,11 +2,7 @@
 	<div class="col-lg-6">
 		<div class="issue">
 		  <div class="issue-author text-muted">
-<<<<<<< HEAD
 		    <b><?php echo $issue['Author']['name'] ?></b> opened this issue <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
-=======
-		    <b><?php echo $issue['Author']['username'] ?></b> opened this issue <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
->>>>>>> iss-14 projectにissueを登録できるようにする
 		  </div>
 		  <div class="issue-subject">
 		    <h2 style="margin:0">
@@ -16,11 +12,7 @@
 		  </div>
 		  <div class="issue-assignee">
 		    <?php if( isset($issue['Assignee']['id'])): ?>
-<<<<<<< HEAD
 		      <b><?php echo $issue['Assignee']['name'] ?></b> is assigned
-=======
-		      <b><?php echo $issue['Assignee']['username'] ?></b> is assigned
->>>>>>> iss-14 projectにissueを登録できるようにする
 		    <?php else: ?>
 		        No one is assigned
 		    <?php endif ?>
