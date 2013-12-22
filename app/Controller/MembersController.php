@@ -63,36 +63,37 @@ class MembersController extends AppController {
 
 	// todo members delete
 	// member is admin
-	public function delete()
+	public function del()
 	{
 		if ($this->request->is('post'))
 		{
-			$is_admin = $this->Member->isAdmin($this->Session->read('current_user')['User']['id'], $this->request->params['id']);
-			if(!$is_admin) throw new BadRequestException('you can not delete member', 400);
+			header('Content-type: application/json');
+			$is_admin = $this->Member->isAdmin($this->Session->read('current_user')['User']['id'], $this->request->data['project_id']);
+			if(!$is_admin)
+			{
+				print json_encode(['status'=>'error', 'error' => 'you can not delete member']); exit;
+			} //throw new BadRequestException('you can not delete member', 400);
 
-			$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->params['id']]]);
-			if(count($project) == 0) throw new BadRequestException('not exists project', 400);
+			$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->data['project_id']]]);
+			if(count($project) == 0){
+				print json_encode(['status'=>'error', 'error' => 'not exists project']); exit; 
+			}//throw new BadRequestException('not exists project', 400);
 
-			$member = $this->Member->find('first', ['conditions'=>['id'=>$this->request->query['id']]]);
-			if(count($member) == 0) throw new BadRequestException('not exists member', 400);
+			$member = $this->Member->find('first', ['conditions'=>['Member.id'=>$this->params->id]]);
+			if(count($member) == 0){
+				print json_encode(['status'=>'error', 'error' => 'not exists member']); exit; 
+			}//throw new BadRequestException('not exists member', 400);
 
 			$this->Member->create();
-			$data = [
-			    'Member' => [
-			    	[
-			    		'id'=>$this->request->query['id'], 
-			    	]
-			    ]
-			];
-
-			if ($this->Member->delete($data))
+			if ($this->Member->delete($this->params->id))
 			{
-			    $this->Session->setFlash(__('The Member has been deleted'));
+				$this->Session->setFlash(__('The Member has been deleted'));
 			} else {
-			    $this->Session->setFlash(__('The Member could not be deleted. Please, try again.'));
+				print json_encode(['status'=>'error', 'error' => 'The Member could not be deleted. Please, try again.']); exit;
 			}
 
-			$this->redirect('/projects'. $this->request->params['id'].'/members');
+			print json_encode(['status' => 'success']);
+			exit;
 		}
 	}
 }
