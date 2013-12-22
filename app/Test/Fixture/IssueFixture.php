@@ -1,0 +1,62 @@
+<?php
+class IssueFixture extends CakeTestFixture {
+	public $useDbConfig = 'test';
+	public $fields = [
+	    'id' => ['type' => 'integer', 'key' => 'primary'],
+	    'subject' => ['type' => 'string', 'length' => 255, 'null' => false],
+	    'description' => ['type' => 'text'],
+	    'will_start_at' => ['type' => 'integer', ],
+	    'status' => ['type' => 'integer', ],
+	    'closed_on' => ['type' => 'integer', ],
+	    'project_id' => ['type' => 'integer', ],
+	    'author_id' => ['type' => 'integer', ],
+	    'assignee_id' => ['type' => 'integer', ],
+	    'created_at' => 'datetime',
+	    'updated_at' => 'datetime',
+	    'info' => ['type' => 'text'],
+	];
+	public $records = [
+		[
+			'id' => 1,
+			'subject' => 'test1',
+			'description' => 'test1',
+			'will_start_at' => null,
+			'status' => 1,
+			'closed_on' => null,
+			'project_id' => 1,
+			'author_id' => 1,
+			'assignee_id' => null,
+			'created_at' => '2013-12-22 00:00:00',
+			'updated_at' => '2013-12-22 00:00:00',
+			'info' => '',
+		],
+		[
+			'id' => 2,
+			'subject' => 'test2',
+			'description' => 'test2',
+			'will_start_at' => null,
+			'status' => 9,
+			'closed_on' => null,
+			'project_id' => 1,
+			'author_id' => 1,
+			'assignee_id' => null,
+			'created_at' => '2013-12-22 00:00:00',
+			'updated_at' => '2013-12-22 00:00:00',
+			'info' => '',
+		],
+		[
+			'id' => 3,
+			'subject' => 'test3',
+			'description' => 'test3',
+			'will_start_at' => '2099-12-22 00:00:00',
+			'status' => 1,
+			'closed_on' => null,
+			'project_id' => 1,
+			'author_id' => 1,
+			'assignee_id' => null,
+			'created_at' => '2013-12-22 00:00:00',
+			'updated_at' => '2013-12-22 00:00:00',
+			'info' => '',
+		],
+	];
+ }

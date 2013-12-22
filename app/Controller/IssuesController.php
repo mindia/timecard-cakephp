@@ -8,6 +8,23 @@ class IssuesController extends AppController {
 		parent::beforeFilter();
 	}
 
+	public function index()
+	{
+		$status = (isset($this->request->query['status']))? $this->request->query['status']:'open';
+
+		$current_user_id = $this->Session->read('current_user')['User']['id']; 
+
+		//$issue = $this->Issue->find('all', ['conditions'=>['Issue.assignee_id' => $current_user_id]]);
+		$issues = $this->Issue->withStatus($status);
+		$this->set('issues', $issues);
+		$this->layout = null;
+		$response = $this->render('/Elements/Issues/list');
+		$html = $response->__toString();
+		header('Content-type: application/json');
+		print json_encode(['html' => $html, 'error'=>'']);
+		exit;
+	}
+
 	public function show()
 	{
 		$issue = $this->Issue->find('first', ['conditions'=>['Issue.id'=>$this->request->params['id']]]);
@@ -55,5 +72,70 @@ class IssuesController extends AppController {
 		}
 
 		$this->redirect('/projects/');
+	}
+
+	public function close()
+	{
+		/* todo  work_in_progress check
+		if current_user.work_in_progress?(@issue)
+			current_user.running_workload.update(end_at: Time.now.utc)
+		end
+		*/
+
+		$error = '';
+		if(!$this->Issue->close($this->request->params['id']))
+		{
+			$error = 'can not Issue status.';
+		}else{
+			/* todo github
+			if @issue.github
+        			@issue.github.close(current_user.github.oauth_token)
+      			end
+      			*/
+		}
+
+		$issues = $this->Issue->withStatus('open');
+		$this->set('issues', $issues);
+		$this->layout = null;
+		$response = $this->render('/Elements/Issues/list');
+		$html = $response->__toString();
+		header('Content-type: application/json');
+		print json_encode(['html' => $html, 'error'=>$error]);
+		exit;
+	}
+
+	public function reopen()
+	{
+		$error = '';
+		if(!$this->Issue->reopen($this->request->params['id']))
+		{
+			$error = 'can not Issue status.';
+		}else{
+			/* todo github
+			if @issue.github
+        			@issue.github.reopen(current_user.github.oauth_token)
+      			end
+      			*/
+		}
+
+		$issues = $this->Issue->withStatus('closed');
+		$this->set('issues', $issues);
+		$this->layout = null;
+		$response = $this->render('/Elements/Issues/list');
+		$html = $response->__toString();
+		header('Content-type: application/json');
+		print json_encode(['html' => $html, 'error'=>$error]);
+		exit;
+
+	}
+
+	public function postpone()
+	{
+
+	}
+
+	public function do_today()
+	{
+		
 	}
 }

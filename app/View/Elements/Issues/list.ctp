@@ -22,19 +22,23 @@ You don't have assigned issue.
 
 			<div class="actions pull-right">
 			<?php if((int)$issue['Issue']['status'] === 1):?>
-				<a class="btn btn-danger js-hide-issue" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/close.json" data-remote="true" data-method="patch">Close</a>
+				<a class="btn btn-danger js-hide-issue btn-iss-status" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/close.json" data-remote="true" data-method="patch">Close</a>
+			<?php else:?>
+				<a class="btn btn-default js-hide-issue btn-iss-status" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/reopen.json" data-remote="true" data-method="patch">Reopen</a>
+			<?php endif ?>
+
+			<?php if((int)$issue['Issue']['status'] === 1):?>
 				<?php if(is_null($issue['Issue']['will_start_at']) || $issue['Issue']['will_start_at'] <= date('Y-m-d H:i:s')):?>
 				<a class="btn btn-default js-hide-issue" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/postpone.json" data-remote="true" data-method="patch">Don't do today</a>
 				<?php else:?>
 				<a class="btn btn-default js-hide-issue" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/do_today.json" data-remote="true" data-method="patch">Do today</a>
-					<?php if($issue['Issue']['will_start_at']): //todo 条件確認?>
-					<a class="btn btn-warning js-start-workload-button" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/workloads/start" data-remote="true" data-method="post">Stop</a>
-					<?php else:?>
-					<a class="btn btn-primary js-start-workload-button" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/workloads/start" data-remote="true" data-method="post">Start</a>
-					<?php endif?>
 				<?php endif?>
-			<?php else:?>
-				<a class="btn btn-default js-hide-issue" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/reopen.json" data-remote="true" data-method="patch">Reopen</a>
+
+				<?php if($issue['Issue']['will_start_at']): //todo 条件確認?>
+				<a class="btn btn-warning js-start-workload-button" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/workloads/start" data-remote="true" data-method="post">Stop</a>
+				<?php else:?>
+				<a class="btn btn-primary js-start-workload-button" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/workloads/start" data-remote="true" data-method="post">Start</a>
+				<?php endif?>
 			<?php endif ?>
 			</div>
 		</div>

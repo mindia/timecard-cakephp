@@ -1,7 +1,7 @@
 <?php
 App::uses('Issue', 'Model');
 class IssueTest extends CakeTestCase {
-    //public $fixtures = array('app.project');
+    public $fixtures = array('app.issue');
 
     public function setUp() {
         parent::setUp();
@@ -21,5 +21,17 @@ class IssueTest extends CakeTestCase {
        $res = $this->Issue->validates();
        $this->assertTrue($res);
        unset($data);
+    }
+
+    public function testWithStatus()
+    {
+	$res = $this->Issue->withStatus('open');
+	$this->assertSame(2, count($res));
+
+	$res = $this->Issue->withStatus('closed');
+	$this->assertSame(1, count($res));
+
+	$res = $this->Issue->withStatus('not_do_today');
+	$this->assertSame(1, count($res));
     }
 }

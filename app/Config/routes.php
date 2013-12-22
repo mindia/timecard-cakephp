@@ -40,6 +40,9 @@
 	Router::connect('/projects/:id/members', array('controller' => 'members', 'action' => 'index'), array('id' => '[0-9]+'));
 	Router::connect('/issues/:id', array('controller' => 'issues', 'action' => 'show'), array('id' => '[0-9]+'));
 	Router::connect('/issues/:id/comment', array('controller' => 'comments', 'action' => 'create'), array('id' => '[0-9]+'));
+	Router::connect('/issues/:id/close.json', array('controller' => 'issues', 'action' => 'close'), array('id' => '[0-9]+'));
+	Router::connect('/issues/:id/reopen.json', array('controller' => 'issues', 'action' => 'reopen'), array('id' => '[0-9]+'));
+
 	Router::connect('/members/:id/delete', array('controller' => 'members', 'action' => 'del'), array('id' => '[0-9]+'));
 /**
  * Load all plugin routes. See the CakePlugin documentation on
