@@ -16,7 +16,7 @@ class User extends AppModel {
               'message' => '既に登録されているメールアドレスです。'
            ]
        ],
-       'username' => [
+       'name' => [
 			'required' => [
               'rule' => ['notEmpty'],
               'message' => 'name is required'
@@ -47,6 +47,12 @@ class User extends AppModel {
        ]
 	];
 
+    public $hasMany = [
+        'Member' => [
+            'className'  => 'Member',
+        ]
+    ];
+
 	public function beforeSave($options = [])
 	{
 	    if (isset($this->data[$this->alias]['encrypted_password'])) {
@@ -66,6 +72,21 @@ class User extends AppModel {
 		if($this->data[$this->alias]['encrypted_password'] === $data['password_confirmation']) return true;
 		return false;
 	}
+
+    public function fundProjectUserName($projects)
+    {
+       if(count($projects) === 0) return [];
+       $user_ids = [];
+       foreach($projects as $project)
+       {
+            foreach ($project['Member'] as $member) {
+              $user_ids[$member['user_id']] = $member['user_id'];
+            }
+       }
+       $this->unbindModel(['hasMany'=>['Member']], false);
+       $users = $this->find('list', ['conditions'=> ['id'=> $user_ids], 'fields'=>['name'] ]);
+       return $users;
+    }
 }
 
 
