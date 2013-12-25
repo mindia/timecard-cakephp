@@ -77,5 +77,6 @@ class AppController extends Controller {
 		}
 		$this->set('is_login', ($current_user)? true:false );
 		$this->set('current_user', $current_user);
+		$this->Session->write('current_user', $current_user);
 	}
 }

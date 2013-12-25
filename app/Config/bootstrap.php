@@ -117,3 +117,6 @@ if(Configure::read('is_heroku')){
   CakePlugin::load('Heroku',array('bootstrap' => true));
 }
 
+Configure::write('STATUS_ACTIVE', 1);
+Configure::write('STATUS_CLOSED', 5);
+Configure::write('STATUS_ARCHIVED', 9);

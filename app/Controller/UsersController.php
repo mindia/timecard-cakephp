@@ -44,6 +44,7 @@ class UsersController extends AppController {
 	public function sign_out()
 	{
 		$this->Session->setFlash(__('You need to sign in or sign up before continuing.'));
+		$this->Session->destroy('current_user');
 		$this->redirect($this->Auth->logout());
 	}
 
