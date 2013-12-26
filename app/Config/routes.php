@@ -42,6 +42,8 @@
 	Router::connect('/issues/:id/comment', array('controller' => 'comments', 'action' => 'create'), array('id' => '[0-9]+'));
 	Router::connect('/issues/:id/close.json', array('controller' => 'issues', 'action' => 'close'), array('id' => '[0-9]+'));
 	Router::connect('/issues/:id/reopen.json', array('controller' => 'issues', 'action' => 'reopen'), array('id' => '[0-9]+'));
+	Router::connect('/issues/:id/workloads/start', array('controller' => 'workloads', 'action' => 'start'), array('id' => '[0-9]+'));
+	Router::connect('/issues/:id/workloads/stop', array('controller' => 'workloads', 'action' => 'stop'), array('id' => '[0-9]+'));
 
 	Router::connect('/members/:id/delete', array('controller' => 'members', 'action' => 'del'), array('id' => '[0-9]+'));
 /**

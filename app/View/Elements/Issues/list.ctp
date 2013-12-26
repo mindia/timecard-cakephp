@@ -35,7 +35,7 @@ You don't have assigned issue.
 				<?php endif?>
 
 				<?php if($issue['Issue']['will_start_at']): //todo 条件確認?>
-				<a class="btn btn-warning js-start-workload-button" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/workloads/start" data-remote="true" data-method="post">Stop</a>
+				<a class="btn btn-warning js-start-workload-button" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/workloads/stop" data-remote="true" data-method="post">Stop</a>
 				<?php else:?>
 				<a class="btn btn-primary js-start-workload-button" rel="nofollow" href="/issues/<?php echo $issue['Issue']['id'] ?>/workloads/start" data-remote="true" data-method="post">Start</a>
 				<?php endif?>
