@@ -42,6 +42,23 @@ class WorkloadsController extends AppController {
 
 	public function stop()
 	{
-		
+		$issue = $this->Issue->find('first',['conditions'=>['Issue.id'=>$this->request->params['id']]]);
+
+		foreach($issue['Workload'] as $key=>$val)
+		{
+			if( !is_null($val['start_at']) && is_null($val['end_at']) )
+			{
+				$update_workload[] = ['id' => $val['id'], 'end_at'=>gmdate("Y-m-d H:i:s", time()+9*60*60)];
+			}
+		}
+
+		if($this->Workload->saveMany($update_workload))
+		{
+			$this->Session->setFlash(__('Workload was successfully stoped.'));
+		}else{
+			$this->Session->setFlash(__('Workload could not stoped.'));
+		}
+
+		$this->redirect('/projects/'.$issue['Project']['id']);
 	}
 }
