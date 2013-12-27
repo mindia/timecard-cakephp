@@ -13,8 +13,17 @@ class WorkloadsController extends AppController {
 		{
 			$working_issue = $this->Workload->find('all', [
 				'conditions'=>['NOT'=>['start_at'=>null], 'end_at'=>null, 'user_id'=>$current_user_id]]);
-			pr($working_issue);
-			die();
+			$update_workload = array_map(
+				function($val)
+				{
+					if( !is_null($val['Workload']['start_at']) && is_null($val['Workload']['end_at']) )
+					{
+						return ['id' => $val['Workload']['id'], 'end_at'=>gmdate("Y-m-d H:i:s", time()+9*60*60)];
+					}
+				},
+				$working_issue
+			);
+			$this->Workload->saveMany($update_workload);
 		}
 
 		$issue = $this->Issue->find('first',['conditions'=>['Issue.id'=>$this->request->params['id']]]);
