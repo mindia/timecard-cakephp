@@ -1,7 +1,7 @@
 <?php
 class ProjectsController extends AppController {
   	//var $scaffold;
-  	public $uses = ['Project', 'Member', 'User'];
+  	public $uses = ['Project', 'Member', 'User', 'Issue'];
   	public function beforeFilter()
 	{
 		parent::beforeFilter();
@@ -18,6 +18,15 @@ class ProjectsController extends AppController {
 		$this->set('project_users', $this->User->fundProjectUserName($projects));
 	}
 
+	public function show($id)
+	{
+		$project = $this->Project->find('first', ['conditions'=>['id'=>$id]]);
+		//todo ; find (issue, comment, workload)
+		//$issues = $this->Issue->find('all', ['conditions'=>['project_id'=>$id], 'order'=>'updated_at DESC', 'limit'=>10]);
+		//$comments = $this->Comment->find('all', ['conditions'=>['project_id'=>$id]]);
+		$this->set("project", $project);
+	}
+	
 	public function registration()
 	{
 		$this->render('new');

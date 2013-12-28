@@ -31,4 +31,16 @@ App::uses('Helper', 'View');
  * @package       app.View.Helper
  */
 class AppHelper extends Helper {
+
+	public function is_admin($user, $project_member)
+	{
+		foreach($project_member as $member)
+		{
+			if((int)$user['id'] === (int)$member['user_id'])
+			{
+				return ((int)$member['is_admin'] === 1);
+			}
+		}
+		return false;
+	}
 }

@@ -1,4 +1,5 @@
 <?php
+App::uses('Member','Model');
 class Project extends AppModel
 {
 	public $validate = [
@@ -19,6 +20,11 @@ class Project extends AppModel
             'className'  => 'Member',
         ]
     ];
+
+    public function initialize()
+    {
+    	$this->Member = Classregistry::init('Member');
+    }
 
 	public function beforeSave($options = [])
 	{
