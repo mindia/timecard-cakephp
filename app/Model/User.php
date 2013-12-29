@@ -1,6 +1,9 @@
 <?php
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
+App::uses('Authentication', 'Model');
+
 class User extends AppModel {
+
 	public $validate = [
 		'email' => [
 			'required' => [
@@ -72,21 +75,42 @@ class User extends AppModel {
 		if($this->data[$this->alias]['encrypted_password'] === $data['password_confirmation']) return true;
 		return false;
 	}
+ 	public function fundProjectUserName($projects)
+	{
+		if(count($projects) === 0) return [];
+		$user_ids = [];
+		foreach($projects as $project)
+		{
+			foreach ($project['Member'] as $member) {
+				$user_ids[$member['user_id']] = $member['user_id'];
+			}
+		}
+		$this->unbindModel(['hasMany'=>['Member']], false);
+		$users = $this->find('list', ['conditions'=> ['id'=> $user_ids], 'fields'=>['name'] ]);
+		return $users;
+	}
 
-    public function fundProjectUserName($projects)
-    {
-       if(count($projects) === 0) return [];
-       $user_ids = [];
-       foreach($projects as $project)
-       {
-            foreach ($project['Member'] as $member) {
-              $user_ids[$member['user_id']] = $member['user_id'];
-            }
-       }
-       $this->unbindModel(['hasMany'=>['Member']], false);
-       $users = $this->find('list', ['conditions'=> ['id'=> $user_ids], 'fields'=>['name'] ]);
-       return $users;
-    }
+	public function connected($provider, $id){
+		$conditions = ['Authentication.provider'=>$provider, 'Authentication.user_id'=>$id];
+		$this->Authentication = new Authentication();
+		return $this->Authentication->find('first', ['conditions' => $conditions]);
+	}
+
+	public function github_username($id){
+		$row = $this->connected('github', $id);
+		if ($row) {
+			return $row['Authentication']['username'];
+		}
+		return '';
+	}
+
+	public function ruffnote_username($id){
+		$row = $this->connected('ruffnote', $id);
+		if ($row) {
+			return  $row['Authentication']['username'];
+		}
+		return '';
+	}
 }
 
 
