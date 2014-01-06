@@ -1,6 +1,9 @@
 <?php
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
+App::uses('Authentication', 'Model');
+
 class User extends AppModel {
+
 	public $validate = [
 		'email' => [
 			'required' => [
@@ -79,7 +82,6 @@ class User extends AppModel {
 		if($this->data[$this->alias]['encrypted_password'] === $data['password_confirmation']) return true;
 		return false;
 	}
-
     public function fundProjectUserName($projects)
     {
        if(count($projects) === 0) return [];
@@ -110,7 +112,29 @@ class User extends AppModel {
   def running_workload
     workloads.find_by("start_at IS NOT NULL AND end_at IS NULL")
   end
-  */
+ */
+
+	public function connected($provider, $id){
+		$conditions = ['Authentication.provider'=>$provider, 'Authentication.user_id'=>$id];
+		$this->Authentication = new Authentication();
+		return $this->Authentication->find('first', ['conditions' => $conditions]);
+	}
+
+	public function github_username($id){
+		$row = $this->connected('github', $id);
+		if ($row) {
+			return $row['Authentication']['username'];
+		}
+		return '';
+	}
+
+	public function ruffnote_username($id){
+		$row = $this->connected('ruffnote', $id);
+		if ($row) {
+			return  $row['Authentication']['username'];
+		}
+		return '';
+	}
 }
 
 
