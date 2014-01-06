@@ -50,7 +50,14 @@ class User extends AppModel {
     public $hasMany = [
         'Member' => [
             'className'  => 'Member',
-        ]
+        ],
+        'Issue' => [
+            'className'  => 'Issue',
+            'foreignKey' => 'assignee_id'
+        ],
+        'Comment' => [
+            'className'  => 'Comment',
+        ],
     ];
 
 	public function beforeSave($options = [])

@@ -16,7 +16,7 @@
 				<?php 
 				  echo $this->Html->link(
 				    $project["Project"]["name"],
-				    '/projects/show/'.$project["Project"]["id"]
+				    '/projects/'.$project["Project"]["id"]
 				  )
 				?>
 			</div>

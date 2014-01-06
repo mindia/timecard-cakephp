@@ -54,5 +54,32 @@ echo $this->Html->link(
 </div>
 
 <div class="row">
+	<div class="col-lg-6">
+		<h3>Comments</h3>
+		<div id="comments">
+			<ul class="media-list">
+			<?php foreach($comments as $comment):?>
+			<li class="media">
+				<div class="comment">
+					<div class="comment-author">
+					<?php echo $comment['User']['name']?> @ <?php echo $this->App->timeAgo($comment['Comment']['created_at']) ?>
+					</div>
+					<div class="comment-body">
+					<?php echo nl2br($comment['Comment']['body']) ?>
+					</div>
+				</div>
+			</li>
+			<?php endforeach ?>
+			</ul>
+		</div>
+	</div>
 
+	<div class="col-lg-6">
+		<h3>WorkLoads</h3>
+		<div id="work-logs">
+			<ul class="media-list">
+			<?php // todo show workloads ?>
+			</ul>
+		</div>
+	</div>
 </div>

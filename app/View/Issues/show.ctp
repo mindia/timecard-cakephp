@@ -45,3 +45,40 @@
 </div>
 
 <?php //todo comment & workload display?>
+<div class="row">
+	<div class="col-lg-6">
+		<h3>Comments</h3>
+		<ul class="media-list">
+			<!--<%= render partial: 'comments/comment', collection: @issue.comments.order("id ASC") %>-->
+			<?php foreach($comment_user as $comment):?>
+			<li class="media comment-area">
+			<div class="comment">
+				<div class="comment-author">
+					<?php echo $comment['User']['name'] ?> commented <?php echo $this->App->timeAgo($comment['Comment']['created_at']) ?>
+				</div>
+				<div class="comment-body">
+					<?php echo nl2br($comment['Comment']['body']) ?>
+				</div>
+				<div class="comment-actions">
+					<?php if ($this->App->is_member($current_user['User'], $project_member['Member']) &&  $issue['Project']['status'] == Configure::read('STATUS_ACTIVE')): ?>
+					<a href="#" class="btn btn-default">Edit</a>
+					<a href="#" class="btn btn-danger">Destroy</a>
+					<?php endif?>
+				</div>
+			</div>
+			</li>
+			<?php endforeach ?>
+		</ul>
+
+	<?php if ($this->App->is_member($current_user['User'], $project_member['Member']) &&  $issue['Project']['status'] == Configure::read('STATUS_ACTIVE')): ?>
+	  <?php echo $this->Form->create('Comment', ['url'=>'/issues/'.$issue['Issue']['id'].'/comment']); ?>
+	    <div class="form-group">
+	      <?php echo $this->Form->input('body', ['type'=>'textarea', 'class'=>'form-control', 'placeholder'=>'Leave a comment', 'label'=>false]);?>
+	    </div>
+	    <div class="actions pull-right">
+	      <input class="btn btn-success" type="submit" value="Comment" name="commit"></input>
+	    </div>
+	  </div>
+	<?php endif?>
+	</div>
+</div>
