@@ -24,7 +24,7 @@ echo $this->Html->link(
 	<?php if($this->App->is_admin($current_user['User'], $project['Member'])):?>
 	<div class="project-actions">
 		<?php if($project['Project']['status'] == Configure::read('STATUS_ACTIVE')):?>
-		<a href="#" class="btn btn-default">Add a member</a>
+		<a href="/projects/<?php echo $project['Project']['id'] ?>/members" class="btn btn-default">Add a member</a>
 		<a href="#" class="btn btn-default">Edit</a>
 		<a href="#" class="btn btn-default">Close</a>
 		<a href="#" class="btn btn-default">Archive</a>

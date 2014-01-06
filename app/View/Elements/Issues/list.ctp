@@ -10,6 +10,10 @@ You don't have assigned issue.
 				</div>
 				<div class="issue-author">
 					Opend by <?php echo $issue['Author']['name'] ?> <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
+					<a href="/issues/<?php echo $issue['Issue']['id'] ?>"><?php echo h($issue['Issue']['subject']) ?></a>
+				</div>
+				<div class="issue-author">
+					Opend by <?php echo $issue['Author']['name'] ?> <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
 				</div>
 				<div class="issue-status">
 				<?php if((int)$issue['Issue']['status'] === 1):?>
