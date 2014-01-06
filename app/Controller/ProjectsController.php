@@ -29,7 +29,7 @@ class ProjectsController extends AppController {
 		$this->set("issues", $issues);
 		$this->set("comments", $comments);
 	}
-
+	
 	public function registration()
 	{
 		$this->render('new');
