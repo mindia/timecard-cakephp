@@ -43,4 +43,41 @@ class AppHelper extends Helper {
 		}
 		return false;
 	}
+
+	public function is_member($user, $project_member)
+	{
+		foreach($project_member as $member)
+		{
+			if((int)$user['id'] === (int)$member['user_id'])
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function timeAgo($time)
+	{
+		$time = (!is_int($time)) ? strtotime($time) : $time;
+ 
+		$now = time();
+		
+		$remainder = $now - $time;
+		
+		if($remainder < 60) {
+			return $remainder . ' seconds ago';
+		} else if($remainder < 3600) {
+			$number = ceil($remainder / 60);
+			$suffix = ($number > 1) ? 's' : '';
+			return $number . ' minute' . $suffix . ' ago';
+		} else if($remainder < 86400) {
+			$number = floor($remainder / 3600);
+			$suffix = ($number > 1) ? 's' : '';
+			return $number . ' hour' . $suffix . ' ago';
+		} else {
+			$number = floor($remainder / 86400);
+			$suffix = ($number > 1) ? 's' : '';
+			return $number . ' day' . $suffix . ' ago';
+		}
+	}
 }

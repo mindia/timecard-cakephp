@@ -33,7 +33,13 @@
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
 	Router::connect('/projects/new', array('controller' => 'projects', 'action' => 'registration'));
+
 	Router::connect('/projects/:id', array('controller' => 'projects', 'action' => 'show'), array('id' => '[0-9]+'));
+
+	Router::connect('/projects/:id/issues/new', array('controller' => 'issues', 'action' => 'registration'), array('id' => '[0-9]+'));
+	Router::connect('/projects/:id/issues/create', array('controller' => 'issues', 'action' => 'create'), array('id' => '[0-9]+'));
+	Router::connect('/issues/:id', array('controller' => 'issues', 'action' => 'show'), array('id' => '[0-9]+'));
+
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
