@@ -1,3 +1,4 @@
+<?php $this->Html->script( 'issues', array( 'inline' => false ) ); ?>
 <?php 
 echo $this->Html->link(
   'Back to all projects',
@@ -45,9 +46,9 @@ echo $this->Html->link(
   <?php endif ?>
 </h3>
 <div class="btn-group btn-group-sm" style="margin-bottom:10px">
-	<a href="/issues/?project_id=<?php echo $project['Project']['id']?>&status=open" class="btn btn-default" data-remote="true">Open</a>
-	<a href="/issues/?project_id=<?php echo $project['Project']['id']?>&status=closed" class="btn btn-default" data-remote="true">Closed</a>
-	<a href="/issues/?project_id=<?php echo $project['Project']['id']?>&status=not_do_today" class="btn btn-default" data-remote="true">Don't do today</a>
+	<a href="/issues/?project_id=<?php echo $project['Project']['id']?>&status=open" class="btn btn-default btn-iss-status" data-remote="true">Open</a>
+	<a href="/issues/?project_id=<?php echo $project['Project']['id']?>&status=closed" class="btn btn-default btn-iss-status" data-remote="true">Closed</a>
+	<a href="/issues/?project_id=<?php echo $project['Project']['id']?>&status=not_do_today" class="btn btn-default btn-iss-status" data-remote="true">Don't do today</a>
 </div>
 <div id="issues" class="media-list">
 	<?php echo $this->element('Issues/list') ?>

@@ -94,6 +94,23 @@ class User extends AppModel {
        $users = $this->find('list', ['conditions'=> ['id'=> $user_ids], 'fields'=>['name'] ]);
        return $users;
     }
+/*
+    def work_in_progress?(issue)
+    working_issue == issue
+  end
+
+  def working_issue
+    if workloads.running?
+      workloads.find_by("start_at IS NOT NULL AND end_at IS NULL").issue
+    else
+      nil
+    end
+  end
+
+  def running_workload
+    workloads.find_by("start_at IS NOT NULL AND end_at IS NULL")
+  end
+  */
 }
 
 
