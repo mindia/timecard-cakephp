@@ -21,16 +21,18 @@
 <dl>
     <dt><b>Github</b></dt>
     <dd>
-      <?php if (false):   ?>
+      <?php if ($datas['connect_gitHub']):   ?>
       <div>
-
+	<?php echo $datas['github_username'] ?>
+      	<?php echo $this->Html->link('Disconnect from Github', ['controller'=>'users', 'action'=>'github'] )  ?>    
       </div>
       <?php else: ?>
       	<?php echo $this->Html->link('Connect to Github', ['controller'=>'users', 'action'=>'github'], ['class'=>'btn btn-default'])  ?>    
       <?php endif; ?>
-      <?php if (false):  ?>
+      <?php if ( $datas['connect_ruffnote']):  ?>
       <div>
-
+	<?php echo $datas['ruffnote_username'] ?>
+      	<?php echo $this->Html->link('Disconnect from Ruffnote', ['controller'=>'users', 'action'=>'github'] )  ?>    
       </div>
 
       <?php else: ?>
@@ -45,3 +47,4 @@
 <p>Unhappy? <?php echo $this->Html->link('Cancel my accout', [], ['class'=>'btn btn-danger'], 'Are you sure?' ) ?></p>
 
 <?php echo $this->html->link('Back', [],['class'=>'back']) ?>
+<?php echo '<a href="'.$refer.'" class="back">Back</a>'; ?> 

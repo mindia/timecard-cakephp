@@ -1,0 +1,7 @@
+auth:
+  Github:
+      key: xxx
+      serret: xxx
+  Ruffnote:
+      key: xxx1
+      serret: xxx1
