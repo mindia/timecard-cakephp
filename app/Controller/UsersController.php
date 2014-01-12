@@ -26,6 +26,7 @@ class UsersController extends AppController {
             		$this->User->create();
             		if ($this->User->save($this->request->data))
             		{
+            			$this->SendEmail->userCreate($this->request->data['User']);
                 		$this->Session->setFlash(__('The user has been saved'));
                 		$this->redirect('/');
             		} else {

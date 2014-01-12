@@ -120,3 +120,6 @@ if(Configure::read('is_heroku')){
 Configure::write('STATUS_ACTIVE', 1);
 Configure::write('STATUS_CLOSED', 5);
 Configure::write('STATUS_ARCHIVED', 9);
+
+Configure::write('SYSTEM_ADMIN_EMAIL', 'xxxxx@localhost.localdomain'); //todo change adress
+Configure::write('SYSTEM_NOTIFY_EMAIL', 'notify@timecard-cakephp.herokuapp.com'); //todo change adress

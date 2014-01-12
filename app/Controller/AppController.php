@@ -58,7 +58,8 @@ class AppController extends Controller {
                	]
 		        ]
 		    ]
-		]
+		],
+		'SendEmail'
 	]; 
 
 	public $uses = ['User'];
