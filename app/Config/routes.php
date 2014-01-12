@@ -51,6 +51,12 @@
 	Router::connect('/users/sign_in', array('controller' => 'users', 'action' => 'signIn'));
 	Router::connect('/users/sign_out', array('controller' => 'users', 'action' => 'signOut'));
 	Router::connect('/opauth-complete/*', array('controller' => 'users', 'action' => 'opauthComplete'));
+
+	Router::connect('/dashboard', array('controller' => 'dashboards', 'action' => 'show'));
+
+	Router::connect('/users/:user_id/workloads/:year/:month/:day', array('controller' => 'workloads', 'action' => 'index'), 
+		array('user_id' => '[0-9]+','year' => '[0-9]+','month' => '[0-9]+','day' => '[0-9]+',));
+
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

@@ -80,4 +80,16 @@ class Issue extends AppModel {
 		if($this->save($data['Issue'])) return true;
 		return false;
 	}
+
+	public function getIssueByWorkload($workloads)
+	{
+		return array_map(
+				function($val)
+				{
+					$Issue = $this->find('first',['conditions'=>['Issue.id'=>$val['Workload']['issue_id']],'recursive'=>0, ]);
+					return $val + $Issue;
+				},
+				$workloads
+			);
+	}
 }
