@@ -4,10 +4,13 @@ App::import('Vendor','/Spyc/Spyc');
 
 
 class UsersController extends AppController {
+
+	public $uses = ['Authentication'];
+
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
-		$this->Auth->allow('show', 'sign_up', 'sign_in', 'sign_out', 'password');
+		$this->Auth->allow('show', 'sign_up', 'sign_in', 'sign_out', 'password', 'opauth_complete');
 	}
 
 	public function beforeRender(){
@@ -26,7 +29,7 @@ class UsersController extends AppController {
             		$this->User->create();
             		if ($this->User->save($this->request->data))
             		{
-            			$this->SendEmail->userCreate($this->request->data['User']);
+				$this->SendEmail->userCreate($this->request->data['User']);
                 		$this->Session->setFlash(__('The user has been saved'));
                 		$this->redirect('/');
             		} else {
@@ -37,9 +40,6 @@ class UsersController extends AppController {
 
 	public function sign_in()
 	{
-		$var = Spyc::YAMLLoad(APP . 'Config' . DS . 'omniauth.yml');
-		$auth = $var['auth'];
-
 		if ($this->request->is('post'))
 		{
 			if ($this->Auth->login($this->request->data['User']))
@@ -50,6 +50,8 @@ class UsersController extends AppController {
 			    $this->Session->setFlash(__('Invalid emai or password, try again'));
 			}
 		}
+		$var = Spyc::YAMLLoad(APP . 'Config' . DS . 'omniauth.yml');
+		$auth = $var['auth'];
 		$datas  = ['controller_name'=> $this->name,
 			   'action' => $this->action,
 			   'auth'=> $auth];
@@ -102,11 +104,51 @@ class UsersController extends AppController {
 		$this->set(compact('datas'));
 	}
 
-	public function github() {
+       public function opauth_complete() {
 
-	}
+		// search authentication
+		$auth = $this->data['auth'];
+		$uid = $auth['uid'];
+		$provider = $auth['provider'];
+		$userId = '';
+		$isLogin = false;
 
-	public function ruffnote() {
+		$current_user = $this->Session->read('current_user');
+		if (empty($current_user)) {
+			// login 
+			$authentication = $this->Authentication->find('first', ['conditions' => ['uid'=>$uid, 'provider'=>$provider]]);
+			if (!empty($authentication)) {
+				$userId = $authentication['Authentication']['user_id'];
+				$user = $this->User->find('first', ['conditions'=> ['id'=> $userId]]);
+			} else {
+				$this->Session->setFlash(__('You need to sign up.'));
+				return;
+			}
+			$isLogin = true;
+		} else {
+			$userId = $current_user['User']['id'];
+			// user edit 
+		}
 
-	}
+		$data = $this->Authentication->find('first', ['conditions'=>['user_id'=> $userId, 'provider'=>$provider]]);
+		$saveData = ['user_id'=> $userId,
+						'provider' => $provider,
+						'uid' => $uid,
+						'username' => $auth['info']['nickname'],
+						'oauth_token'=>$auth['credentials']['token'],
+						'created_at' => date('Y-m-d H:i:s'),
+						'updated_at' => date('Y-m-d H:i:s') ];
+		if (!empty($data)){
+			$saveData = array_merge($saveData, ['id'=>$data['Authentication']['id']]);	
+		}
+
+		$this->Authentication->save($saveData);
+		
+		if ($isLogin){
+			$authdata = ['email'=>$user['User']['email'], 'encrypted_password'=>$user['User']['encrypted_password']];
+			$this->Auth->login($authdata);
+			return $this->redirect(['controller' => 'projects', 'action' => 'index']);
+		}
+       }
+
 }

@@ -116,6 +116,7 @@ if (file_exists($localConfig)){
 if(Configure::read('is_heroku')){
   CakePlugin::load('Heroku',array('bootstrap' => true));
 }
+
 CakePlugin::load(array('Migrations'));
 Configure::write('STATUS_ACTIVE', 1);
 Configure::write('STATUS_CLOSED', 5);
@@ -123,3 +124,12 @@ Configure::write('STATUS_ARCHIVED', 9);
 
 Configure::write('SYSTEM_ADMIN_EMAIL', 'xxxxx@localhost.localdomain'); //todo change adress
 Configure::write('SYSTEM_NOTIFY_EMAIL', 'notify@timecard-cakephp.herokuapp.com'); //todo change adress
+
+/**
+ * 認証用プラグイン
+ */
+CakePlugin::load('Opauth', array('routes' => true, 'bootstrap' => true));
+Configure::write('Opauth.path', '/auth/');
+
+require dirname(__FILE__) . '/timecard_bootstrap.php';
+
