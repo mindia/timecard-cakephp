@@ -10,7 +10,7 @@ class MembersController extends AppController {
 
 	public function index()
 	{
-		if($this->request->is('get') && isset($this->request->query['user_id'])) return $this->create();
+		if($this->request->is('get') && isset($this->request->query['user_id'])) return $this->__create();
 		$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->params['id']]]);
 		$this->set('project', $project);
 		$members = $this->Member->find('all', ['conditions'=>['project_id'=>$this->request->params['id']]]);
@@ -30,7 +30,7 @@ class MembersController extends AppController {
 
 	//todo members add
 	// member is admin
-	private function create()
+	private function __create()
 	{
 		$current_user_id = $this->Session->read('current_user')['User']['id']; 
 		$is_admin = $this->Member->isAdmin($current_user_id, $this->request->params['id']);
