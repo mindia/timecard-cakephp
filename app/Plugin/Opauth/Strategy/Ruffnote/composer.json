@@ -1,0 +1,23 @@
+{
+	"name": "opauth/ruffnote",
+	"description": "Ruffnote authentication strategy for Opauth",
+	"keywords": ["authentication","auth","ruffnote"],
+	"homepage": "http://ruffnote.com",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Shinichi Shiga",
+			"email": "cafe.latte.ant0318@gmail.com",
+			"homepage": "http://www.facebook.com/shiga.shinichi"
+		}
+	],
+	"require": {
+		"php": ">=5.2.0",
+		"opauth/opauth": ">=0.4.0"
+	},
+	"autoload": {
+		"psr-0": {
+			"": "."
+		}
+	}
+}
