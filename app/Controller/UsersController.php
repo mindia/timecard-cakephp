@@ -10,7 +10,7 @@ class UsersController extends AppController {
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
-		$this->Auth->allow('show', 'sign_up', 'sign_in', 'sign_out', 'password', 'opauth_complete');
+		$this->Auth->allow('show', 'sign_up', 'sign_in', 'sign_out', 'password', 'opauthComplete');
 	}
 
 	public function beforeRender(){
@@ -71,7 +71,7 @@ class UsersController extends AppController {
 		if ($this->request->is('post')){
 			$this->User->unbindValidation('remove', ['encrypted_password'], true);
 			$this->User->unbindValidation('remove', ['password_confirmation'], true);
-			
+
 			$auth_user = $this->Auth->user();
 			if ($auth_user['email'] == $this->request->data['User']['email'] ) {
 				unset($this->User->validate['email']['isUnique']);
@@ -105,7 +105,7 @@ class UsersController extends AppController {
 		$this->set(compact('datas'));
 	}
 
-	public function opauth_complete() {
+	public function opauthComplete() {
 		// search authentication
 		$auth = $this->data['auth'];
 		$uid = $auth['uid'];
@@ -136,8 +136,7 @@ class UsersController extends AppController {
 			'uid' => $uid,
 			'username' => $auth['info']['nickname'],
 			'oauth_token'=>$auth['credentials']['token'],
-			'created_at' => date('Y-m-d H:i:s'),
-			'updated_at' => date('Y-m-d H:i:s') ];
+			];
 		if (!empty($data)){
 			$saveData = array_merge($saveData, ['id'=>$data['Authentication']['id']]);
 		}

@@ -47,7 +47,7 @@
 
 	Router::connect('/members/:id/delete', array('controller' => 'members', 'action' => 'del'), array('id' => '[0-9]+'));
 
-	Router::connect('/opauth-complete/*', array('controller' => 'users', 'action' => 'opauth_complete'));
+	Router::connect('/opauth-complete/*', array('controller' => 'users', 'action' => 'opauthComplete'));
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
