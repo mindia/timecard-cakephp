@@ -9,5 +9,5 @@
 <?php endif; ?>
 
 <?php foreach ($auth as $auth_key => $value ): ?>
-  <?php echo $this->Html->link('Sign in with ' . $auth_key , ['controller'=>'users', 'action'=> strtolower($auth_key) ]  ) ?><br/>
+  <?php echo $this->Html->link('Sign in with ' . $auth_key , ['controller'=>'auth', 'action'=> strtolower($auth_key) ]  ) ?><br/>
 <?php endforeach;  ?>

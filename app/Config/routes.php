@@ -50,6 +50,7 @@
 	Router::connect('/users/sign_up', array('controller' => 'users', 'action' => 'signUp'));
 	Router::connect('/users/sign_in', array('controller' => 'users', 'action' => 'signIn'));
 	Router::connect('/users/sign_out', array('controller' => 'users', 'action' => 'signOut'));
+	Router::connect('/opauth-complete/*', array('controller' => 'users', 'action' => 'opauthComplete'));
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

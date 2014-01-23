@@ -123,3 +123,10 @@ Configure::write('STATUS_ARCHIVED', 9);
 
 Configure::write('SYSTEM_ADMIN_EMAIL', 'xxxxx@localhost.localdomain'); //todo change adress
 Configure::write('SYSTEM_NOTIFY_EMAIL', 'notify@timecard-cakephp.herokuapp.com'); //todo change adress
+/**
+ * 認証用プラグイン
+ */
+CakePlugin::load('Opauth', array('routes' => true, 'bootstrap' => true));
+Configure::write('Opauth.path', '/auth/');
+
+require dirname(__FILE__) . '/timecard_bootstrap.php';
