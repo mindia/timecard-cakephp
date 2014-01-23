@@ -134,7 +134,7 @@ class IssuesController extends AppController {
 
 	}
 
-	public function do_today()
+	public function doToday()
 	{
 		
 	}

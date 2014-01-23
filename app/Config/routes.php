@@ -46,6 +46,10 @@
 	Router::connect('/issues/:id/workloads/stop', array('controller' => 'workloads', 'action' => 'stop'), array('id' => '[0-9]+'));
 
 	Router::connect('/members/:id/delete', array('controller' => 'members', 'action' => 'del'), array('id' => '[0-9]+'));
+
+	Router::connect('/users/sign_up', array('controller' => 'users', 'action' => 'signUp'));
+	Router::connect('/users/sign_in', array('controller' => 'users', 'action' => 'signIn'));
+	Router::connect('/users/sign_out', array('controller' => 'users', 'action' => 'signOut'));
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

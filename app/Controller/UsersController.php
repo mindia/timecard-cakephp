@@ -7,7 +7,7 @@ class UsersController extends AppController {
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
-		$this->Auth->allow('show', 'sign_up', 'sign_in', 'sign_out', 'password');
+		$this->Auth->allow('show', 'signUp', 'signIn', 'signOut', 'password');
 	}
 
 	public function beforeRender(){
@@ -20,7 +20,7 @@ class UsersController extends AppController {
 	public function show(){
 	}
 
-	public function sign_up()
+	public function signUp()
 	{
 		if ($this->request->is('post')) {
             		$this->User->create();
@@ -35,7 +35,7 @@ class UsersController extends AppController {
         	}
 	}
 
-	public function sign_in()
+	public function signIn()
 	{
 		$var = Spyc::YAMLLoad(APP . 'Config' . DS . 'omniauth.yml');
 		$auth = $var['auth'];
@@ -56,7 +56,7 @@ class UsersController extends AppController {
 		$this->set(compact('datas'));
 	}
 
-	public function sign_out()
+	public function signOut()
 	{
 		$this->Session->setFlash(__('You need to sign in or sign up before continuing.'));
 		$this->Session->destroy('current_user');
@@ -86,8 +86,8 @@ class UsersController extends AppController {
 			$datas = [
 				'connect_gitHub' => empty($this->User->connected('github', $current_user['User']['id'])) ? false: true,
 				'connect_ruffnote'=> empty($this->User->connected('ruffnote', $current_user['User']['id'])) ? false: true,
-				'github_username' => $this->User->github_username($current_user['User']['id']),
-				'ruffnote_username' => $this->User->ruffnote_username($current_user['User']['id'])
+				'github_username' => $this->User->githubUserName($current_user['User']['id']),
+				'ruffnote_username' => $this->User->ruffnoteUserName($current_user['User']['id'])
 				];
 			$this->set(compact('datas'));
 		}

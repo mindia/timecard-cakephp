@@ -120,7 +120,7 @@ class User extends AppModel {
 		return $this->Authentication->find('first', ['conditions' => $conditions]);
 	}
 
-	public function github_username($id){
+	public function githubUserName($id){
 		$row = $this->connected('github', $id);
 		if ($row) {
 			return $row['Authentication']['username'];
@@ -128,7 +128,7 @@ class User extends AppModel {
 		return '';
 	}
 
-	public function ruffnote_username($id){
+	public function ruffnoteUserName($id){
 		$row = $this->connected('ruffnote', $id);
 		if ($row) {
 			return  $row['Authentication']['username'];
