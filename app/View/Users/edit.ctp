@@ -24,20 +24,20 @@
       <?php if ($datas['connect_gitHub']):   ?>
       <div>
 	<?php echo $datas['github_username'] ?>
-      	<?php echo $this->Html->link('Disconnect from Github', ['controller'=>'users', 'action'=>'github'] )  ?>    
+      	<?php echo $this->Html->link('Disconnect from Github', ['controller'=>'users', 'action'=>'disconnect', '?' => 'provider=github'] )  ?>
       </div>
       <?php else: ?>
-      	<?php echo $this->Html->link('Connect to Github', ['controller'=>'users', 'action'=>'github'], ['class'=>'btn btn-default'])  ?>    
+      	<?php echo $this->Html->link('Connect to Github', ['controller'=>'auth', 'action'=>'github'], ['class'=>'btn btn-default'])  ?>
       <?php endif; ?>
       <?php if ( $datas['connect_ruffnote']):  ?>
       <div>
-	<?php echo $datas['ruffnote_username'] ?>
-      	<?php echo $this->Html->link('Disconnect from Ruffnote', ['controller'=>'users', 'action'=>'github'] )  ?>    
+      <?php echo $datas['ruffnote_username'] ?>
+      	<?php echo $this->Html->link('Disconnect from Ruffnote', ['controller'=>'users', 'action'=>'disconnect', '?' => 'provider=ruffnote'] )  ?>
       </div>
 
       <?php else: ?>
-      	<?php echo $this->Html->link('Connect to Ruffnote', ['controller'=>'users', 'action'=>'ruffnote'], ['class'=>'btn btn-default'])  ?>    
-          
+      	<?php echo $this->Html->link('Connect to Ruffnote', ['controller'=>'auth', 'action'=>'ruffnote'], ['class'=>'btn btn-default'])  ?>
+
       <?php endif; ?>
 
     </dd>
