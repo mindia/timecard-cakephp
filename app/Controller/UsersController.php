@@ -105,6 +105,18 @@ class UsersController extends AppController {
 		$this->set(compact('datas'));
 	}
 
+	public function disconnect() {
+		if ($this->request->is('get')) {
+			$provider = $this->request->query['provider'];
+		}
+		$current_user = $this->Session->read('current_user');
+		$userId = $current_user['User']['id'];
+		$data = $this->Authentication->find('first', ['conditions'=>['user_id'=> $userId, 'provider'=>$provider]]);
+		$this->Authentication->delete($data['Authentication']['id']);
+
+		return $this->redirect('/users/edit');
+	}
+
 	public function opauthComplete() {
 		// search authentication
 		$auth = $this->data['auth'];
@@ -147,6 +159,9 @@ class UsersController extends AppController {
 			$authdata = ['email'=>$user['User']['email'], 'encrypted_password'=>$user['User']['encrypted_password']];
 			$this->Auth->login($authdata);
 			return $this->redirect(['controller' => 'projects', 'action' => 'index']);
+		} else {
+			// user edit
+			return $this->redirect(['controller' => 'users', 'action' => 'edit']);
 		}
 	}
 }
