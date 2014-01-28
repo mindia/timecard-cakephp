@@ -106,9 +106,7 @@ class UsersController extends AppController {
 	}
 
 	public function disconnect() {
-		if ($this->request->is('get')) {
-			$provider = $this->request->query['provider'];
-		}
+		$provider = $this->request->query['provider'];
 		$current_user = $this->Session->read('current_user');
 		$userId = $current_user['User']['id'];
 		$data = $this->Authentication->find('first', ['conditions'=>['user_id'=> $userId, 'provider'=>$provider]]);
