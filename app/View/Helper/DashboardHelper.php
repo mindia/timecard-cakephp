@@ -2,8 +2,6 @@
 App::uses('AppHelper', 'View/Helper');
 class DashboardHelper extends AppHelper
 {
-	public $helpers = ['Dashboard',];
-
 	//todo もっとスマートにできないものか。。。
 	public function getThisWeekDays()
 	{
