@@ -43,7 +43,7 @@ class Issue extends AppModel {
 	    	}
 	}
 
-	public function withStatus($status)
+	public function withStatus($status, $projectId)
 	{
 		switch($status)
 		{
@@ -62,7 +62,13 @@ class Issue extends AppModel {
 
 		}
 
-		return $this->find('all', ['conditions'=>[$where => $param] ]);
+		if(!is_null($projectId)) 
+		{
+			return $this->find('all', ['conditions'=>['Issue.project_id'=>$projectId, $where => $param] ]);
+		}else{
+			return $this->find('all', ['conditions'=>[$where => $param] ]);
+		}
+		
 	}
 
 	public function close($id)
