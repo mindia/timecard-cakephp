@@ -11,11 +11,11 @@ class IssuesController extends AppController {
 	public function index()
 	{
 		$status = (isset($this->request->query['status']))? $this->request->query['status']:'open';
-
+		$projectId = (isset($this->request->query['project_id']))? $this->request->query['project_id']:null;
 		$current_user_id = $this->Session->read('current_user')['User']['id']; 
 
 		//$issue = $this->Issue->find('all', ['conditions'=>['Issue.assignee_id' => $current_user_id]]);
-		$issues = $this->Issue->withStatus($status);
+		$issues = $this->Issue->withStatus($status, $projectId);
 		$this->set('issues', $issues);
 		$this->layout = null;
 		$response = $this->render('/Elements/Issues/list');
