@@ -33,7 +33,7 @@
 		echo $this->fetch('script');
 	?>
 </head>
-<body>
+<body class="<?php echo strtolower($this->name)?>">
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container">
 		    <div class="navbar-header">
@@ -51,7 +51,7 @@
 						<?php echo $this->Html->link("Projects", '/projects'); ?>
 					</li>
 					<li>
-						<?php echo $this->Html->link("Me", '/users/'. $current_user['User']['id']); ?>
+						<?php echo $this->Html->link("Me", '/dashboard'); ?>
 					</li>
 					<li>
 						<?php echo $this->Html->link("Account settings", '/users/edit'); ?>

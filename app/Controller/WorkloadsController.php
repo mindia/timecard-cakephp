@@ -6,6 +6,31 @@ class WorkloadsController extends AppController {
 		parent::beforeFilter();
 	}
 
+	public function index()
+	{
+		$workload = null;
+		if($this->request->params['user_id'])
+		{
+			if($this->request->params['day'])
+			{
+				$current_user_id = $this->Session->read('current_user')['User']['id'];
+				$begin_date = date('Y-m-d H:i:s', strtotime($this->request->params['year'].'-'.$this->request->params['month'].'-'.$this->request->params['day'].' 00:00:00'));
+				$end_date = date('Y-m-d H:i:s', strtotime($this->request->params['year'].'-'.$this->request->params['month'].'-'.$this->request->params['day'].' 23:59:59'));
+				$conditions = ['start_at >=' => $begin_date, 'start_at <=' => $end_date, 'NOT'=>['end_at'=>null], 'user_id'=>$current_user_id];
+				$workload = $this->Workload->find('all', ['conditions'=>$conditions,'recursive'=>-1,]);
+				$workload = $this->Issue->getIssueByWorkload($workload);
+			}else{
+				$conditions = ['NOT'=>['end_at'=>null], 'user_id'=>$current_user_id];
+				$workload = $this->Workload->find('all', ['conditions'=>$conditions,'recursive'=>-1,]);
+				$workload = $this->Issue->getIssueByWorkload($workload);
+			}
+		}
+
+		$this->viewClass = 'Json';
+		$this->set(compact('workload'));
+		$this->set('_serialize', 'workload');
+	}
+
 	public function start()
 	{
 		$current_user_id = $this->Session->read('current_user')['User']['id'];
