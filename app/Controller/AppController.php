@@ -32,22 +32,24 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-	public $helpers = array(  
-	  'Session',  
-	  'Html',  
-	  'Form',  
-	  'Paginator',  
-	);  
+	public $helpers = array(
+	  'Session',
+	  'Html',
+	  'Form',
+	  'Paginator',
+	);
 	public $layout = 'default';
 	public $components = [
 		'Session',
 		'Cookie',
 		'Auth' => [
+			'allowedActions' => ['main'],
 		    'loginAction' => [
 		        'controller' => 'users',
 		        'action' => 'sign_in',
 		    ],
 		    'loginRedirect' => ['controller' => 'projects', 'action' => 'index'],
+ 		    'logoutRedirect' => ['controller' => 'pages', 'action' => 'main'],
 		    'authError' => 'Did you really think you are allowed to see that?',
 		    'authenticate' => [
 		        'Form' => [
@@ -60,7 +62,7 @@ class AppController extends Controller {
 		    ]
 		],
 		'SendEmail'
-	]; 
+	];
 
 	public $uses = ['User'];
 	public function beforeFilter()

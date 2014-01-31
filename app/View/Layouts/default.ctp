@@ -27,6 +27,7 @@
 		echo $this->Html->meta('icon');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('bootstrap-theme.min');
+		echo $this->Html->css('main');
 		echo $this->Html->script('bootstrap.min');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -75,7 +76,7 @@
 		<div class="row">
 			<div class="col-lg-12 col-md-12">
 				<div id="running-users">
-				
+
 				</div>
 				<?php echo $this->Session->flash(); ?>
 				<?php echo $this->fetch('content'); ?>

@@ -75,4 +75,10 @@ class PagesController extends AppController {
 			throw new NotFoundException();
 		}
 	}
+
+	public function main() {
+		if ($this->Auth->loggedIn()) {
+			$this->redirect(['controller' => 'projects', 'action' => 'index']);
+		}
+	}
 }
