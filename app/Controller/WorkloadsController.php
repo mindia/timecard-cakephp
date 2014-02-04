@@ -18,11 +18,11 @@ class WorkloadsController extends AppController {
 				$end_date = date('Y-m-d H:i:s', strtotime($this->request->params['year'].'-'.$this->request->params['month'].'-'.$this->request->params['day'].' 23:59:59'));
 				$conditions = ['start_at >=' => $begin_date, 'start_at <=' => $end_date, 'NOT'=>['end_at'=>null], 'user_id'=>$current_user_id];
 				$workload = $this->Workload->find('all', ['conditions'=>$conditions,'recursive'=>-1,]);
-				$workload = $this->Issue->getIssueByWorkload($workload);
+				$workload = $this->Issue->getIssueByWorkload( $this->Workload->addProgressTime($workload) );
 			}else{
 				$conditions = ['NOT'=>['end_at'=>null], 'user_id'=>$current_user_id];
 				$workload = $this->Workload->find('all', ['conditions'=>$conditions,'recursive'=>-1,]);
-				$workload = $this->Issue->getIssueByWorkload($workload);
+				$workload = $this->Issue->getIssueByWorkload( $this->Workload->addProgressTime($workload) );
 			}
 		}
 
@@ -34,7 +34,7 @@ class WorkloadsController extends AppController {
 	public function start()
 	{
 		$current_user_id = $this->Session->read('current_user')['User']['id'];
-		if($this->Workload->isRunning($current_user_id)>0)
+		if($this->Workload->isRunning($current_user_id))
 		{
 			$working_issue = $this->Workload->find('all', [
 				'conditions'=>['NOT'=>['start_at'=>null], 'end_at'=>null, 'user_id'=>$current_user_id]]);

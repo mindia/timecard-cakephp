@@ -27,7 +27,7 @@ Workloads = (function() {
         $(elm).closest('li').addClass('active');
 
         if (data.length == 0) {
-          $('.table tbody').html('');
+          $('.table-workload-complete tbody').html('');
           return;
         }
         html = '';
@@ -36,15 +36,13 @@ Workloads = (function() {
           project = val['Project']['name'];
           issue = val['Issue']['subject'];
           work_hour = val['Workload']['start_at'].slice(10) + ' - ' + val['Workload']['end_at'].slice(10);
-          start_at = new Date(val['Workload']['start_at']);
-          end_at = new Date(val['Workload']['end_at']);
-          time = computeDuration(end_at.getTime()-start_at.getTime());
+          time = val['Workload']['progress_time'];
           html += '<tr><td><a href="/projects/' + val['Issue']['project_id'] + '">' + project + '</a></td>'
           html += '<td><a href="/issues/' + val['Issue']['id']  + '">' + issue + '</td>'
           html += '<td>' + work_hour + '</td>';
           html += '<td>' + time + '</td></tr>';
         });
-        return $('.table tbody').html(html);
+        return $('.table-workload-complete tbody').html(html);
       }
     });
   };

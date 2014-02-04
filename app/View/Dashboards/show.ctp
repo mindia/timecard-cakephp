@@ -10,7 +10,7 @@
 	<?php endforeach ?>
 </ul>
 
-<table class="table">
+<table class="table table-workload-complete">
 	<thead>
 		<th>Project</th>
 		<th>Issue</th>
