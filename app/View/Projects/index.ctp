@@ -27,7 +27,7 @@
 			<?php endif?>
 			<div id="members">
 				<?php foreach($project['Member'] as $member):?>
-					<?php echo $project_users[$member['user_id']] ?>
+					<?php echo $this->Html->link($project_users[$member['user_id']], '/users/'.$member['user_id']) ?>
 				<?php endforeach?>
 			</div>
 		</div>
