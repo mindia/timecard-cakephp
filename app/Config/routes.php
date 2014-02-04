@@ -50,6 +50,7 @@
 	Router::connect('/users/sign_up', array('controller' => 'users', 'action' => 'signUp'));
 	Router::connect('/users/sign_in', array('controller' => 'users', 'action' => 'signIn'));
 	Router::connect('/users/sign_out', array('controller' => 'users', 'action' => 'signOut'));
+	Router::connect('/users/:id', array('controller' => 'users', 'action' => 'show'), array('id' => '[0-9]+'));
 	Router::connect('/opauth-complete/*', array('controller' => 'users', 'action' => 'opauthComplete'));
 
 	Router::connect('/dashboard', array('controller' => 'dashboards', 'action' => 'show'));
