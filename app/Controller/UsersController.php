@@ -5,6 +5,7 @@ App::import('Vendor','/Spyc/Spyc');
 
 class UsersController extends AppController {
 
+	public $components = ['Cookie'];
 	public $uses = ['Authentication'];
 
 	public function beforeFilter()
@@ -47,10 +48,11 @@ class UsersController extends AppController {
 		{
 			if ($this->Auth->login($this->request->data['User']))
 			{
+				$this->Cookie->write('Auth', $cookie, true, '+2 weeks');
 				$this->Session->setFlash(__('Signed in successfully.'));
-			    $this->redirect($this->Auth->redirect());
+				$this->redirect($this->Auth->redirect());
 			}else{
-			    $this->Session->setFlash(__('Invalid emai or password, try again'));
+				$this->Session->setFlash(__('Invalid emai or password, try again'));
 			}
 		}
 		$datas  = ['controller_name'=> $this->name,
@@ -61,6 +63,7 @@ class UsersController extends AppController {
 
 	public function signOut()
 	{
+		$this->Cookie->delete('Auth');
 		$this->Session->setFlash(__('You need to sign in or sign up before continuing.'));
 		$this->Session->destroy('current_user');
 		$this->redirect($this->Auth->logout());
