@@ -63,7 +63,7 @@ echo $this->Html->link(
 			<li class="media">
 				<div class="comment">
 					<div class="comment-author">
-					<?php echo $comment['User']['name']?> @ <?php echo $this->App->timeAgo($comment['Comment']['created_at']) ?>
+					<?php echo $this->Html->link($comment['User']['name'], '/users/'.$comment['User']['id']) ?> @ <?php echo $this->App->timeAgo($comment['Comment']['created_at']) ?>
 					</div>
 					<div class="comment-body">
 					<?php echo nl2br($comment['Comment']['body']) ?>

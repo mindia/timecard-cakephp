@@ -9,7 +9,7 @@ You don't have assigned issue.
 					<a href="/issues/<?php echo $issue['Issue']['id'] ?>"><b><?php echo h($issue['Issue']['subject']) ?></b></a>
 				</div>
 				<div class="issue-author">
-					Opend by <?php echo $issue['Author']['name'] ?> <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
+					Opend by <?php echo $this->Html->link($issue['Author']['name'], '/users/'.$issue['Author']['id']) ?> <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
 				</div>
 				<div class="issue-status">
 				<?php if((int)$issue['Issue']['status'] === 1):?>

@@ -12,7 +12,7 @@
 		  </div>
 		  <div class="issue-assignee">
 		    <?php if( isset($issue['Assignee']['id'])): ?>
-		      <b><?php echo $issue['Assignee']['name'] ?></b> is assigned
+		      <b><?php echo $this->Html->link($issue['Assignee']['name'], '/users/'.$issue['Assignee']['id']) ?></b> is assigned
 		    <?php else: ?>
 		        No one is assigned
 		    <?php endif ?>
@@ -54,7 +54,7 @@
 			<li class="media comment-area">
 			<div class="comment">
 				<div class="comment-author">
-					<?php echo $comment['User']['name'] ?> commented <?php echo $this->App->timeAgo($comment['Comment']['created_at']) ?>
+					<?php echo $this->Html->link($comment['User']['name'], '/users/'.$comment['User']['id']) ?> commented <?php echo $this->App->timeAgo($comment['Comment']['created_at']) ?>
 				</div>
 				<div class="comment-body">
 					<?php echo nl2br($comment['Comment']['body']) ?>
