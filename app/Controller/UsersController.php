@@ -22,6 +22,10 @@ class UsersController extends AppController {
 	 * #todo show user data
 	 */
 	public function show(){
+		$user = $this->User->find('first', ['conditions' => ['id' => $this->request->params['id']]]);
+		$github = $this->Authentication->find('first', ['conditions' => ['user_id' => $this->request->params['id'], 'provider'=>'github']]);
+		$this->set('user', $user);
+		$this->set('github', $github);
 	}
 
 	public function signUp()
