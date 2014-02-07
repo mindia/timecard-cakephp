@@ -53,10 +53,10 @@ class UsersController extends AppController {
 			if ($this->Auth->login($this->request->data['User']))
 			{
 				$this->Cookie->write('Auth', $cookie, true, '+2 weeks');
-				$this->Session->setFlash(__('Signed in successfully.'));
-				$this->redirect($this->Auth->redirect());
+				$this->Session->setFlash(__('Signed in successfully.'), 'default', ['class' => 'alert alert-success']);
+			    $this->redirect($this->Auth->redirect());
 			}else{
-				$this->Session->setFlash(__('Invalid emai or password, try again'));
+			    $this->Session->setFlash(__('Invalid emai or password, try again'), 'default', ['class' => 'alert alert-danger']);
 			}
 		}
 		$datas  = ['controller_name'=> $this->name,
@@ -68,7 +68,7 @@ class UsersController extends AppController {
 	public function signOut()
 	{
 		$this->Cookie->delete('Auth');
-		$this->Session->setFlash(__('You need to sign in or sign up before continuing.'));
+		$this->Session->setFlash(__('You need to sign in or sign up before continuing.', 'default', ['class' => 'alert alert-success']));
 		$this->Session->destroy('current_user');
 		$this->redirect($this->Auth->logout());
 	}

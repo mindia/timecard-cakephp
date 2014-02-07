@@ -27,6 +27,7 @@
 		echo $this->Html->meta('icon');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('bootstrap-theme.min');
+		echo $this->Html->css('main');
 		echo $this->Html->script('bootstrap.min');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -42,7 +43,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 		      </button>
-		      <?php echo $this->Html->link("Timecard", '/projects', ['class'=>'navbar-brand', 'data-no-turbolink'=>1]); ?>
+		      <?php echo $this->Html->link("Timecard", '/', ['class'=>'navbar-brand', 'data-no-turbolink'=>1]); ?>
 		    </div>
 		    <div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
@@ -64,9 +65,12 @@
 					</li>
 					<?php else:?>
 					<li>
+						<?php echo $this->Html->link("Projects", '/projects/'); ?>
+					</li>
+										<li>
 						<?php echo $this->Html->link("Login", '/users/sign_in'); ?>
 					</li>
-					<?php endif; ?>
+										<?php endif; ?>
 				</ul>
 		    </div>
 		</div>
@@ -75,7 +79,7 @@
 		<div class="row">
 			<div class="col-lg-12 col-md-12">
 				<div id="running-users">
-				
+
 				</div>
 				<?php echo $this->Session->flash(); ?>
 				<?php echo $this->fetch('content'); ?>

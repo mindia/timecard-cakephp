@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+body {
+  -webkit-text-size-adjust: 100%;
+}
+
+a.btn-black {
+  background-color: #777777;
+  color: #ffffff;
+}
+
+a.btn-black:hover {
+  background-color: #555555;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.welcome, .jumbotron, .btn-block {
+    text-align: center;
+    background-color: #ffffff;
+    margin: 20px 0;
+}
+h2 {
+    color: #555555;
+    font-weight: normal;
+}
