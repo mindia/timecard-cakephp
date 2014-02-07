@@ -43,7 +43,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 		      </button>
-		      <?php echo $this->Html->link("Timecard", '/projects', ['class'=>'navbar-brand', 'data-no-turbolink'=>1]); ?>
+		      <?php echo $this->Html->link("Timecard", '/', ['class'=>'navbar-brand', 'data-no-turbolink'=>1]); ?>
 		    </div>
 		    <div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
@@ -65,9 +65,12 @@
 					</li>
 					<?php else:?>
 					<li>
+						<?php echo $this->Html->link("Projects", '/projects/'); ?>
+					</li>
+										<li>
 						<?php echo $this->Html->link("Login", '/users/sign_in'); ?>
 					</li>
-					<?php endif; ?>
+										<?php endif; ?>
 				</ul>
 		    </div>
 		</div>
