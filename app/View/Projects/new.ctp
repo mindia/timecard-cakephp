@@ -6,25 +6,19 @@
 	</div>
 
 	<div class="form-group">
-  		<?php echo $this->Form->input('description', ['type'=>'textarea', 'class'=>'form-control']);?>
+  		<?php echo $this->Form->input('description', ['label'=>'Description (optional)', 'type'=>'textarea', 'class'=>'form-control']);?>
 	</div>
-<!--
-<% if @project.persisted? %>
-<div class="form-group">
-<%= f.label :github_full_name %><br>
-<%= f.text_field :github_full_name, class: "form-control" %>
-</div>
-<div class="form-group">
-<%= f.label :ruffnote_full_name %><br>
-<%= f.text_field :ruffnote_full_name, class: "form-control" %>
-</div>
-<% end %>
--->
-	<div class="checkbox">
-		<?php echo $this->Form->input('is_public', ['type'=>'checkbox']);?>
+	<div class="radio">
+		<?php echo $this->Form->radio('is_public', [true=>'Public'], ['legend'=>false, 'default'=>"1", 'hiddenField'=>false ]); ?><br/>
+		<span class="text-muted">Anyone can see this project.</span>
 	</div>
-
+	<div class="radio">
+		<?php echo $this->Form->radio('is_public', [false=>'Private'], ['legend'=>false, 'hiddenField'=>false ] );?><br/>
+		<span class="text-muted">You choose who can see to this project.</span>
+	</div>
 	<div class="actions">
 		<input class="btn btn-default" type="submit" value="Create Project" name="commit"></input>
 	</div>
+	<br/>	
+	<?php echo $this->html->link('Back','/projects') ?>
 </div>
