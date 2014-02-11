@@ -15,8 +15,8 @@ class AppSchema extends CakeSchema {
 		'uid' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'username' => array('type' => 'string', 'null' => false, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'oauth_token' => array('type' => 'string', 'null' => false, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'created_at' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'updated_at' => array('type' => 'datetime', 'null' => false, 'default' => null),
+		'created_at' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'updated_at' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -77,6 +77,7 @@ class AppSchema extends CakeSchema {
 		'status' => array('type' => 'integer', 'null' => false, 'default' => '1'),
 		'created_at' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'updated_at' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'crowdworks_url' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -90,6 +91,8 @@ class AppSchema extends CakeSchema {
 		'provided_type' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'info' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'provided_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'created_at' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'updated_at' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),

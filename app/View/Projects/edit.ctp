@@ -28,4 +28,6 @@
 	<div class="actions">
 		<input class="btn btn-default" type="submit" value="Update Project" name="commit"></input>
 	</div>
+	<br/>
+	<a href="/projects/<?php echo $project['Project']['id'] ?>" >Back to project</a>
 </div>

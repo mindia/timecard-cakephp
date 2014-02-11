@@ -121,7 +121,11 @@ class ProjectsController extends AppController {
 			return true;
 		} catch ( Exception $e )
 		{
+			// TODO
+			// github のリポジトリー存在チェックによるエラーの種類を増やす必要があるかも
+			// 詳細はgithub 連携のissue で対応
 			// error
+			$this->Session->setFlash(__('An unexpected error has occurred. Please confirm input parameters'), 'default', [], 'provider');
 		}
 	}
 
