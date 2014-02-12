@@ -1,7 +1,8 @@
 <?php
+App::uses('AppController', 'Controller');
 class ProjectsController extends AppController {
   	//var $scaffold;
-  	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment'];
+  	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment', 'Authentication', 'Provider'];
   	public function beforeFilter()
 	{
 		parent::beforeFilter();
@@ -47,7 +48,6 @@ class ProjectsController extends AppController {
 			    	['user_id'=>$this->Session->read('current_user')['User']['id'], 'is_admin'=>1, ]
 			    ]
 			];
-
 			if ($this->Project->saveAssociated($data))
 			{
 			    $this->Session->setFlash(__('The project has been saved'));
@@ -58,5 +58,98 @@ class ProjectsController extends AppController {
 		}
 
 		$this->render('new');
+	}
+	public function edit()
+	{
+		$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->params['id']]]);
+		$github = $this->Provider->find('first', ['conditions'=>['provided_type'=>'Project', 'name'=>'github', 'foreign_id'=>$this->request->params['id']]]);
+		$ruffnote = $this->Provider->find('first', ['conditions'=>['provided_type'=>'Project', 'name'=>'ruffnote', 'foreign_id'=>$this->request->params['id']]]);
+		$this->set("project", $project);
+		$this->set("github_full_name", $github ? $github['Provider']['info']: "");
+		$this->set("ruffnote_full_name", $ruffnote ? $ruffnote['Provider']['info']: "");
+	}
+
+	public function update()
+	{
+		if ($this->request->is('post'))
+		{
+			#github / ruffnote full_name save 
+			if ($this->addGithub($this->request->data['Project']['github_full_name'], $this->request->data['Project']['id']) != true)
+			{
+				$this->Session->setFlash(__('The project could not be saved. Please, try again.'));
+				return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
+			}
+			unset($this->request->data['Project']['github_full_name']);		
+			if ($this->addRuffnote($this->request->data['Project']['ruffnote_full_name'], $this->request->data['Project']['id']) != true )
+			{
+				$this->Session->setFlash(__('The project could not be saved. Please, try again.'));
+				return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
+			}
+			unset($this->request->data['Project']['ruffnote_full_name']);		
+			if ($this->Project->save($this->request->data['Project']))
+			{
+			    $this->Session->setFlash(__('The project has been saved'));
+			} else {
+			    $this->Session->setFlash(__('The project could not be saved. Please, try again.'));
+			}
+		}
+		return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
+	}
+	
+	private function addGithub($fullName, $foreign_id) 
+	{
+		$provider = $this->Provider->find('first', ['conditions' => ['name' => 'github', 'foreign_id' => $foreign_id, 'provided_type' => 'Project']] );
+		if ( $provider == false )
+		{
+			// create
+			$this->Provider->create();
+			$data = ['name' => 'github',
+				 'foreign_id' => $foreign_id,
+				 'provided_type' => 'Project'
+				];
+			$this->Provider->save( $data );
+			$provider = $this->Provider->find('first', ['conditions' => ['id' => $this->Provider->id] ]);
+		}
+		
+		try 
+		{
+			// TODO checked the repository of github
+
+			//
+			$data = ['info' => $fullName, 
+				'id' => $provider['Provider']['id']];
+			$this->Provider->save( $data );
+			return true;
+		} catch ( Exception $e )
+		{
+			// TODO
+			// github のリポジトリー存在チェックによるエラーの種類を増やす必要があるかも
+			// 詳細はgithub 連携のissue で対応
+			// error
+			$this->Session->setFlash(__('An unexpected error has occurred. Please confirm input parameters'), 'default', [], 'provider');
+		}
+	}
+
+
+	private function addRuffnote( $fullName, $foreign_id )
+	{
+
+		$provider = $this->Provider->find('first', ['conditions' => ['name' => 'ruffnote', 'foreign_id' => $foreign_id, 'provided_type' => 'Project']] );
+		if ( $provider == false )
+		{
+			// create
+			$this->Provider->create();
+			$data = ['name' => 'ruffnote',
+				 'foreign_id' => $foreign_id,
+				 'provided_type' => 'Project'
+				];
+			$this->Provider->save( $data );
+			$provider = $this->Provider->find('first', ['conditions' => ['id' => $this->Provider->id] ]);
+		}
+		
+		$data = ['info' => $fullName, 
+			'id' => $provider['Provider']['id']];
+		$this->Provider->save( $data );
+		return true;
 	}
 }

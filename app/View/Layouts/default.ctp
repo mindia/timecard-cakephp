@@ -81,6 +81,7 @@
 				<div id="running-users">
 
 				</div>
+				<?php echo $this->Session->flash('provider'); ?>
 				<?php echo $this->Session->flash(); ?>
 				<?php echo $this->fetch('content'); ?>
 			</div>
