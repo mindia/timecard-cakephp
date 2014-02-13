@@ -138,8 +138,27 @@ class UsersController extends AppController {
 				$userId = $authentication['Authentication']['user_id'];
 				$user = $this->User->find('first', ['conditions'=> ['id'=> $userId]]);
 			} else {
-				$this->Session->setFlash(__('You need to sign up.'));
-				return;
+				$password = bin2hex(openssl_random_pseudo_bytes(20));
+				$userData = ['User' => [
+						'email' => $auth['info']['email'],
+						'name' => $auth['info']['nickname'],
+						'encrypted_password' => $password,
+						'password_confirmation' => $password,
+						]
+					];
+				$data = $this->User->find('first', ['conditions' => ['email' => $auth['info']['email']]]);
+				if (!empty($data)) {
+					$userData = array_merge($userData['User'], ['id' => $data['User']['id']]);
+				} else {
+					$this->User->create();
+				}
+				if ($this->User->save($userData)) {
+					$userId = $this->User->id;
+					$user = $this->User->find('first', ['conditions'=> ['id'=> $userId]]);
+				} else {
+					$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+					return;
+				}
 			}
 			$isLogin = true;
 		} else {
