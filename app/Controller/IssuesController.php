@@ -1,8 +1,9 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('HttpSocket', 'Network/Http');
 
 class IssuesController extends AppController {
-	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment'];
+	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment', 'Provider', 'Authentication'];
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
@@ -60,12 +61,14 @@ class IssuesController extends AppController {
 	{
 		if ($this->request->is('post'))
 		{
+			$github = $this->createGitHubIssue($this->request->data['Issue']);
+			$saveData = array_merge($this->request->data['Issue'], ['info'=>$github['html_url']]);
 			$this->Issue->create();
 
-			if ($this->Issue->save($this->request->data['Issue']))
+			if ($this->Issue->save($saveData))
 			{
-			    $this->Session->setFlash(__('The Issue has been saved'));
-			    $this->redirect('/projects/'. $this->request->data['Issue']['project_id']);
+				$this->Session->setFlash(__('The Issue has been saved'));
+ 			    $this->redirect(['controller'=>'projects', 'action'=>$this->request->data['Issue']['project_id']]);
 			} else {
 			    $this->Session->setFlash(__('The Issue could not be saved. Please, try again.'));
 			}
@@ -136,6 +139,38 @@ class IssuesController extends AppController {
 
 	public function doToday()
 	{
-		
+
+	}
+
+	private function createGitHubIssue($issue)
+	{
+		$github = Configure::read('Opauth.Strategy.GitHub');
+		$sock = new HttpSocket();
+
+		// create request URI
+		$cond = ['foreign_id' => $issue['project_id'], 'name' => 'github', 'provided_type' => 'Project'];
+		$provider = $this->Provider->find('first', ['conditions' => $cond]);
+		$uri = "https://api.github.com/repos/".$provider['Provider']['info']."/issues";
+
+		// create request data
+		$data = ['title' => $issue['subject'], 'body' => $issue['description']];
+		$assignee = $this->User->find('first', ['conditions' => ['id' => $issue['assignee_id']]]);
+		if (!empty($assignee))
+		{
+			$data = array_merge($data, ['assignee' => $assignee['User']['name']]);
+		}
+
+		// create a HTTP header
+		$author = $this->User->find('first', ['conditions' => ['id' => $issue['author_id']]]);
+		$authentication = $this->Authentication->find('first', ['conditions' => ['user_id'=>$author['User']['id'], 'provider'=>'github']]);
+		$request = ['header' => ['Authorization' => 'token '.$authentication['Authentication']['oauth_token']]];
+
+		// send request
+		$response = $sock->post($uri, json_encode($data), $request);
+		if (empty($response))
+		{
+			return false;
+		}
+		return json_decode($response, true);
 	}
 }
