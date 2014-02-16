@@ -13,7 +13,7 @@ class IssuesController extends AppController {
 	{
 		$status = (isset($this->request->query['status']))? $this->request->query['status']:'open';
 		$projectId = (isset($this->request->query['project_id']))? $this->request->query['project_id']:null;
-		$current_user_id = $this->Session->read('current_user')['User']['id']; 
+		$current_user_id = $this->Session->read('current_user')['User']['id'];
 
 		//$issue = $this->Issue->find('all', ['conditions'=>['Issue.assignee_id' => $current_user_id]]);
 		$issues = $this->Issue->withStatus($status, $projectId);
@@ -52,8 +52,17 @@ class IssuesController extends AppController {
 			return $members;
 		};
 
+		$cond = ['foreign_id' => $project['Project']['id'], 'name' => 'github', 'provided_type' => 'Project'];
+		$provider = $this->Provider->find('first', ['conditions' => $cond]);
+
 		$this->set('project', $project['Project']);
 		$this->set('project_member', $assign_select($project['Member']));
+		if (empty($provider['Provider']['info']))
+		{
+			$this->set('isGitHub', false);
+		} else {
+			$this->set('isGitHub', true);
+		}
 		$this->render('new');
 	}
 
@@ -61,8 +70,12 @@ class IssuesController extends AppController {
 	{
 		if ($this->request->is('post'))
 		{
-			$github = $this->createGitHubIssue($this->request->data['Issue']);
-			$saveData = array_merge($this->request->data['Issue'], ['info'=>$github['html_url']]);
+			$saveData = $this->request->data['Issue'];
+			if (!empty($this->request->data['Issue']['github']) && $this->request->data['Issue']['github'])
+			{
+				$github = $this->createGitHubIssue($this->request->data['Issue']);
+				$saveData = array_merge($saveData, ['info'=>$github['html_url']]);
+			}
 			$this->Issue->create();
 
 			if ($this->Issue->save($saveData))

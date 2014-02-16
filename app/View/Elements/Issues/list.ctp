@@ -6,7 +6,9 @@ You don't have assigned issue.
 		<div id="issue_<?php echo $issue['Issue']['id'] ?>" class="issue media">
 			<div class="pull-left">
 				<div class="issue-subject">
-					<a href="<?php echo $issue['Issue']['info'] ?>" target="_blank"><b><?php echo "#".substr(strrchr($issue['Issue']['info'], '/'), 1) ?></b></a>
+					<?php if (!empty($issue['Issue']['info'])): ?>
+						<a href="<?php echo $issue['Issue']['info'] ?>" target="_blank"><b><?php echo "#".substr(strrchr($issue['Issue']['info'], '/'), 1) ?></b></a>
+					<?php endif ?>
 					<a href="/issues/<?php echo $issue['Issue']['id'] ?>"><b><?php echo h($issue['Issue']['subject']) ?></b></a>
 				</div>
 				<div class="issue-author">
