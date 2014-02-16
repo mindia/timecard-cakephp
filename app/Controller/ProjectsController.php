@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('HttpSocket', 'Network/Http');
 class ProjectsController extends AppController {
   	//var $scaffold;
   	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment', 'Authentication', 'Provider'];
@@ -73,7 +74,17 @@ class ProjectsController extends AppController {
 	{
 		if ($this->request->is('post'))
 		{
-			#github / ruffnote full_name save 
+			#github / ruffnote full_name save
+			if (!empty($this->request->data['Project']['github_full_name']))
+			{
+				$sock = new HttpSocket();
+				$uri = "https://api.github.com/repos/".$this->request->data['Project']['github_full_name'];
+				$res = $sock->get($uri);
+				if (!$res->isOk()) {
+					$this->Session->setFlash(__('GitHub Full Name is not found on GitHub.'));
+					return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
+				}
+			}
 			if ($this->addGithub($this->request->data['Project']['github_full_name'], $this->request->data['Project']['id']) != true)
 			{
 				$this->Session->setFlash(__('The project could not be saved. Please, try again.'));
