@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('HttpSocket', 'Network/Http');
 class ProjectsController extends AppController {
   	//var $scaffold;
   	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment', 'Authentication', 'Provider'];
@@ -73,30 +74,30 @@ class ProjectsController extends AppController {
 	{
 		if ($this->request->is('post'))
 		{
-			#github / ruffnote full_name save 
+			#github / ruffnote full_name save
 			if ($this->addGithub($this->request->data['Project']['github_full_name'], $this->request->data['Project']['id']) != true)
 			{
-				$this->Session->setFlash(__('The project could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The project could not be saved. Please, try again.'), 'default', ['class' => 'alert alert-danger']);
 				return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
 			}
-			unset($this->request->data['Project']['github_full_name']);		
+			unset($this->request->data['Project']['github_full_name']);
 			if ($this->addRuffnote($this->request->data['Project']['ruffnote_full_name'], $this->request->data['Project']['id']) != true )
 			{
-				$this->Session->setFlash(__('The project could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The project could not be saved. Please, try again.'), 'default', ['class' => 'alert alert-danger']);
 				return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
 			}
-			unset($this->request->data['Project']['ruffnote_full_name']);		
+			unset($this->request->data['Project']['ruffnote_full_name']);
 			if ($this->Project->save($this->request->data['Project']))
 			{
-			    $this->Session->setFlash(__('The project has been saved'));
+			    $this->Session->setFlash(__('The project has been saved'), 'default', ['class' => 'alert alert-success']);
 			} else {
-			    $this->Session->setFlash(__('The project could not be saved. Please, try again.'));
+			    $this->Session->setFlash(__('The project could not be saved. Please, try again.'), 'default', ['class' => 'alert alert-danger']);
 			}
 		}
 		return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
 	}
-	
-	private function addGithub($fullName, $foreign_id) 
+
+	private function addGithub($fullName, $foreign_id)
 	{
 		$provider = $this->Provider->find('first', ['conditions' => ['name' => 'github', 'foreign_id' => $foreign_id, 'provided_type' => 'Project']] );
 		if ( $provider == false )
@@ -110,24 +111,21 @@ class ProjectsController extends AppController {
 			$this->Provider->save( $data );
 			$provider = $this->Provider->find('first', ['conditions' => ['id' => $this->Provider->id] ]);
 		}
-		
-		try 
-		{
-			// TODO checked the repository of github
 
-			//
-			$data = ['info' => $fullName, 
-				'id' => $provider['Provider']['id']];
-			$this->Provider->save( $data );
-			return true;
-		} catch ( Exception $e )
+		if (!empty($fullName))
 		{
-			// TODO
-			// github のリポジトリー存在チェックによるエラーの種類を増やす必要があるかも
-			// 詳細はgithub 連携のissue で対応
-			// error
-			$this->Session->setFlash(__('An unexpected error has occurred. Please confirm input parameters'), 'default', [], 'provider');
+			$sock = new HttpSocket();
+			$uri = "https://api.github.com/repos/" . $fullName;
+			$res = $sock->get($uri);
+			if (!$res->isOk())
+			{
+				$this->Session->setFlash(__('GitHub Full Name is not found on GitHub.'), 'default', ['class' => 'alert alert-danger'], 'provider');
+				return false;
+			}
 		}
+		$data = ['info' => $fullName,
+			'id' => $provider['Provider']['id']];
+		return $this->Provider->save( $data );
 	}
 
 
@@ -146,8 +144,8 @@ class ProjectsController extends AppController {
 			$this->Provider->save( $data );
 			$provider = $this->Provider->find('first', ['conditions' => ['id' => $this->Provider->id] ]);
 		}
-		
-		$data = ['info' => $fullName, 
+
+		$data = ['info' => $fullName,
 			'id' => $provider['Provider']['id']];
 		$this->Provider->save( $data );
 		return true;
