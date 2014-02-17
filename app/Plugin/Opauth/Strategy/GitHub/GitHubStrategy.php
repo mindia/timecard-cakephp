@@ -42,6 +42,7 @@ class GitHubStrategy extends OpauthStrategy {
 		$url = 'https://github.com/login/oauth/authorize';
 		$params = array(
 			'client_id' => $this->strategy['client_id'],
+			'scope' => 'public_repo',
 			'redirect_uri' => $this->strategy['redirect_uri']
 		);
 

@@ -16,7 +16,7 @@
 		<?php echo $this->Form->input('assignee_id', ['type'=>'select', 'options'=>$project_member]);?>
 	</div>
 
-		<?php 
+		<?php
 			echo $this->Form->input('will_start_at', [
                                        'type' => 'datetime',
                                        'dateFormat' => 'YMD',
@@ -27,8 +27,16 @@
                                        'maxYear' => date('Y')+4,
      					]);
 		?>
+		<?php if ($isGitHub): ?>
+			<hr>
+			<?php echo $this->Form->checkbox('github', ['label' => 'github', 'checked']) ?>
+			<?php echo $this->Form->label('github', 'GitHub') ?>
+			<br>
+			<span class='text-muted'>If checked add this issue to github.</span>
+			<hr>
+		<?php endif ?>
 	<div class="actions">
-		<input class="btn btn-default" type="submit" value="Create Issue" name="commit"></input>
+		<input class="btn btn-success" type="submit" value="Create Issue" name="commit"></input>
 	</div>
 </div>
 
