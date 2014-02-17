@@ -64,7 +64,7 @@ class AppController extends Controller {
 		'SendEmail'
 	];
 
-	public $uses = ['User'];
+	public $uses = ['User','Workload', 'Issue'];
 	public function beforeFilter()
 	{
 		$auth_user = $this->Auth->user();
@@ -81,5 +81,17 @@ class AppController extends Controller {
 		$this->set('is_login', ($current_user)? true:false );
 		$this->set('current_user', $current_user);
 		$this->Session->write('current_user', $current_user);
+
+		// todo コンポーネントにまとめるほうがいいかもしれない
+		$isRunningWorkload = false;
+		$runningWorkloadLists = [];
+		if( !is_null($current_user)){
+			$isRunningWorkload = $this->Workload->isRunning();
+			$runningWorkloadLists = $this->Issue->getIssueByWorkload($this->Workload->isRunningLists());
+			$runningWorkloadLists = $this->Workload->addProgressTime($runningWorkloadLists);
+		}
+
+		$this->set('isRunning', $isRunningWorkload );
+		$this->set('runningWorkloadLists', $runningWorkloadLists );
 	}
 }

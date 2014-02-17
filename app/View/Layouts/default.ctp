@@ -77,7 +77,7 @@
 		<div class="row">
 			<div class="col-lg-12 col-md-12">
 				<div id="running-users">
-
+					<?php echo $this->element('Workloads/running_users'); ?>
 				</div>
 				<?php echo $this->Session->flash('provider'); ?>
 				<?php echo $this->Session->flash(); ?>
