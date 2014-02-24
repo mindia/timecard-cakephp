@@ -36,7 +36,7 @@ class PagesController extends AppController {
  *
  * @var array
  */
-	public $uses = array();
+	public $uses = ['Project', 'Member', 'User', 'Issue',];
 
 /**
  * Displays a view
@@ -78,7 +78,16 @@ class PagesController extends AppController {
 
 	public function main() {
 		if ($this->Auth->loggedIn()) {
-			$this->redirect(['controller' => 'projects', 'action' => 'index']);
+			$fields = ['Project.*, count(Issue.id) AS issues_count'];
+			$conditions = [
+				'Issue.assignee_id'=>$this->Session->read('current_user')['User']['id'],
+				'Issue.status'=>1,
+			];
+			$group = ['Project.id'];
+
+			$projects = $this->Project->Issue->find('all',['fields'=>$fields,'conditions'=>$conditions, 'group'=>$group]);
+			$this->set('projects', $projects);
+			$this->render('main_login');
 		}
 	}
 }

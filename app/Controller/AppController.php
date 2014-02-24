@@ -48,7 +48,7 @@ class AppController extends Controller {
 		        'controller' => 'users',
 		        'action' => 'sign_in',
 		    ],
-		    'loginRedirect' => ['controller' => 'projects', 'action' => 'index'],
+		    'loginRedirect' => ['controller' => 'pages', 'action' => 'main'],
  		    'logoutRedirect' => ['controller' => 'pages', 'action' => 'main'],
 		    'authError' => 'Did you really think you are allowed to see that?',
 		    'authenticate' => [
