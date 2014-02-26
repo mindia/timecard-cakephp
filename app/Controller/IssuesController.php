@@ -4,6 +4,7 @@ App::uses('HttpSocket', 'Network/Http');
 
 class IssuesController extends AppController {
 	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment', 'Provider', 'Authentication'];
+	public $helpers = ['Workload'];
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
