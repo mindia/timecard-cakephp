@@ -6,3 +6,4 @@
 cron/postfix_maillog/
 *.swp
 lib/Cake/Console/Templates/skel/tmp/*
+bin/timecard_sass/.sass-cache/
