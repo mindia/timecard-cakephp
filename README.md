@@ -12,3 +12,7 @@ Manual
 ------------
 [https://ruffnote.com/timecard/timecard/3387](https://ruffnote.com/timecard/timecard/3387)
 
+Usage
+------------
+$ cd app/webroot/
+$ php -S localhost:8080
