@@ -3,6 +3,7 @@
 		<div class="issue">
 		  <div class="issue-author text-muted">
 		    <b><?php echo $issue['Author']['name'] ?></b> opened this issue <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
+		    <?php echo $this->Html->link('Edit', '/issues/'.$issue['Issue']['id'].'/edit', ['class'=>'btn btn-sm btn-default pull-right']) ?>
 		  </div>
 		  <div class="issue-subject">
 		    <h2 style="margin:0">
