@@ -1,0 +1,60 @@
+.home {
+  .action-group {
+    margin: 0 0 20px 0;
+  }
+  .project {
+    border: 1px solid #eeeeee;
+    box-shadow: 5px 5px 0 #cccccc;
+    height: 300px;
+    margin: 0 0 30px 0;
+    padding: 15px 20px;
+    .project-description {
+      margin: 0 0 10px 0;
+    }
+    ul.issues-count {
+      list-style-type: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+    }
+    #members {
+      a {
+        text-decoration: none;
+      }
+      img {
+        margin: 0 3px 5px 0;
+        &:hover {
+          opacity: 0.6;
+          filter: alpha(opacity=60); /* For IE8 and earlier */
+        }
+      }
+    }
+  }
+  .nav-pills {
+    margin-bottom: 15px;
+  }
+
+  #issues {
+    .media {
+      border-bottom: 1px solid #dddddd;
+      margin: 20px 0 0 0;
+      padding: 0 0 20px 0;
+    }
+    .actions {
+      line-height: 40px;
+    }
+  }
+
+  .welcome {
+    text-align: center;
+    .jumbotron {
+      background-color: #ffffff;
+      .btn-block {
+        margin: 20px 0;
+      }
+    }
+    h2 {
+      color: #555555;
+      font-weight: normal;
+    }
+  }
+}
