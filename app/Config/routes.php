@@ -45,6 +45,7 @@
 	Router::connect('/issues/:id/reopen.json', array('controller' => 'issues', 'action' => 'reopen'), array('id' => '[0-9]+'));
 	Router::connect('/issues/:id/workloads/start', array('controller' => 'workloads', 'action' => 'start'), array('id' => '[0-9]+'));
 	Router::connect('/issues/:id/workloads/stop', array('controller' => 'workloads', 'action' => 'stop'), array('id' => '[0-9]+'));
+	Router::connect('/issues/:id/edit', array('controller' => 'issues', 'action' => 'edit'), array('id' => '[0-9]+'));
 
 	Router::connect('/members/:id/delete', array('controller' => 'members', 'action' => 'del'), array('id' => '[0-9]+'));
 
@@ -56,7 +57,7 @@
 
 	Router::connect('/dashboard', array('controller' => 'dashboards', 'action' => 'show'));
 
-	Router::connect('/users/:user_id/workloads/:year/:month/:day', array('controller' => 'workloads', 'action' => 'index'), 
+	Router::connect('/users/:user_id/workloads/:year/:month/:day', array('controller' => 'workloads', 'action' => 'index'),
 		array('user_id' => '[0-9]+','year' => '[0-9]+','month' => '[0-9]+','day' => '[0-9]+',));
 
 /**
