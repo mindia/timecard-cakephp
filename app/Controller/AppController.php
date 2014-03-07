@@ -93,5 +93,6 @@ class AppController extends Controller {
 
 		$this->set('isRunning', $isRunningWorkload );
 		$this->set('runningWorkloadLists', $runningWorkloadLists );
+		$this->set('isSideMenu', true);
 	}
 }

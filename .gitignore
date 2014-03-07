@@ -1,5 +1,6 @@
 /app/tmp/*
 /app/Config/local.php
+/app/Config/omniauth.yml
 .pearrc
 .DS_Store
 /cake/console/templates/skel/tmp/cache/persistent

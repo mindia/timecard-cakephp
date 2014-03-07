@@ -1,4 +1,12 @@
 .projects {
+  form {
+    margin-bottom: 15px;
+  }
+}
+
+.project {
+  @include box-shadow(rgba(80, 80, 80, .45) 0 0 2px);
+  min-height: 200px;
   .project-header {
     position: relative;
   }
@@ -7,7 +15,17 @@
     top: 0;
     right: 0;
   }
-  form {
-    margin-bottom: 15px;
+  .project-name {
+    padding: 8px;
+    background: #E6F1F6;
+  }
+  .project-description {
+    padding: 8px;
+  }
+  .project-members {
+    padding: 8px;
+  }
+  #actions {
+    margin: 15px 0;
   }
 }
