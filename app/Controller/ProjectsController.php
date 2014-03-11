@@ -4,6 +4,7 @@ App::uses('HttpSocket', 'Network/Http');
 class ProjectsController extends AppController {
   	//var $scaffold;
   	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment', 'Authentication', 'Provider'];
+  	public $helpers = ['Workload'];
   	public function beforeFilter()
 	{
 		parent::beforeFilter();
@@ -24,13 +25,18 @@ class ProjectsController extends AppController {
 	public function show()
 	{
 		$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->params['id']]]);
-
-		//todo ; find (issue, comment, workload)
 		$issues = $this->Project->Issue->find('all', ['conditions'=>['Project.id'=>$this->request->params['id'], 'Issue.status'=>1]]);
 		$comments = $this->Issue->Comment->find('all' ,['conditions'=>['Issue.id'=>array_map(function($val){return $val['Issue']['id'];}, $issues)], 'order'=>'Comment.created_at desc'] );
+		$workloads = $this->Issue->Workload->find('all' ,
+			[
+				'conditions'=>['Issue.id'=>array_map(function($val){return $val['Issue']['id'];}, $issues)], 
+				'order'=>'Workload.created_at desc',
+				'limit' => 5
+			]);
 		$this->set("project", $project);
 		$this->set("issues", $issues);
 		$this->set("comments", $comments);
+		$this->set("workloads", $workloads);
 	}
 
 	public function registration()

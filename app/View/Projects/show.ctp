@@ -75,12 +75,27 @@ echo $this->Html->link(
 		</div>
 	</div>
 
-	<div class="col-lg-6">
-		<h3>WorkLoads</h3>
-		<div id="work-logs">
-			<ul class="media-list">
-			<?php // todo show workloads ?>
-			</ul>
+		<div class="col-lg-6">
+			<div class="section">
+				<h3>Workloads</h3>
+				<ul class="media-list">
+				<?php foreach($workloads as $workload):?>
+				<?php if(is_null($workload['Workload']['end_at'])):?><?php continue; ?><?php endif ?>
+					<li class="media">
+						<div class="workload">
+							<a href="/users/<?php echo $workload['Workload']['user_id'] ?>">kkrrjp</a>
+							<br>
+							WorkTime <?php echo $this->Workload->progressTime($workload['Workload']['start_at'], $workload['Workload']['end_at']); ?>
+							<br>
+							Start At: <?php echo $workload['Workload']['start_at'] ?> / End At: <?php echo $workload['Workload']['end_at'] ?>
+							<div class="actions">
+								<a class="btn btn-default" href="/workloads/<?php echo $workload['Workload']['id'] ?>/edit">Edit</a>
+								<a class="btn btn-danger" data-confirm="Are you sure?" data-method="delete" href="/workloads/<?php echo $workload['Workload']['id'] ?>" rel="nofollow">Destroy</a>
+							</div>
+						</div>
+					</li>
+				<?php endforeach ?>
+				</ul>
+			</div>
 		</div>
-	</div>
 </div>
