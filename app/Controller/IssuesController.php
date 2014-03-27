@@ -44,7 +44,15 @@ class IssuesController extends AppController {
 
 		$this->set('project', $project['Project']);
 		$this->set('project_member', $this->getAssigneeList($project));
-		$this->set('isGitHub', $this->isGitHub($project));
+		$github = $this->isGitHub($project);
+		if ($github)
+		{
+			$this->set('project_member', $this->getGitHubMembers($project));
+		} else {
+			$this->set('project_member', $this->getAssigneeList($project));
+		}
+		$this->set('isGitHub', $github);
+
 
 		$this->render('new');
 	}
@@ -181,6 +189,25 @@ class IssuesController extends AppController {
 		$this->redirect($this->referer());
 	}
 
+	public function assignee()
+	{
+		$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->params['id']]]);
+		$github = $this->request->query['github'];
+		if (!empty($github) && $github === '1')
+		{
+			// get assignee list from github
+			$this->set('users', $this->getGitHubMembers($project));
+		} else {
+			$this->set('users', $this->getAssigneeList($project));
+		}
+		$this->layout = null;
+		$response = $this->render('/Elements/Issues/assignee');
+		$html = $response->__toString();
+		header('Content-type: application/json');
+		print json_encode(['html' => $html, 'error'=>'']);
+		exit;
+	}
+
 	private function createGitHubIssue($issue)
 	{
 		$github = Configure::read('Opauth.Strategy.GitHub');
@@ -231,6 +258,41 @@ class IssuesController extends AppController {
 			$members[$member['user_id']] = $users[$member['user_id']];
 		}
 		return $members;
+	}
+
+	private function getGitHubMembers($project)
+	{
+		$sock = new HttpSocket();
+
+		// create request URI
+		$cond = ['foreign_id' => $project['Project']['id'], 'name' => 'github', 'provided_type' => 'Project'];
+		$provider = $this->Provider->find('first', ['conditions' => $cond]);
+		$uri = "https://api.github.com/repos/".$provider['Provider']['info']."/assignees";
+
+		// create a HTTP header
+		foreach ($project['Member'] as $key => $member) {
+			if ($member['is_admin']) {
+				$authentication = $this->Authentication->find('first', ['conditions' => ['user_id'=>$member['id'], 'provider'=>'github']]);
+				break;
+			}
+		}
+		if (empty($authentication)) {
+			exit;
+		}
+		$request = ['Authorization' => 'token '.$authentication['Authentication']['oauth_token']];
+
+		// send request
+		$response = $sock->get($uri, null, ['header'=>$request]);
+		if (!empty($response) && $response->code == 200)
+		{
+			$users[] = "";
+			foreach (json_decode($response, true) as $key => $user) {
+				$users[] = $user['login'];
+			}
+			return $users;
+		} else {
+			return false;
+		}
 	}
 
 	private function isGitHub($project)

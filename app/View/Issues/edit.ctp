@@ -1,3 +1,5 @@
+<?php $this->Html->script( 'issues', array( 'inline' => false ) ); ?>
+
 <h1>Edit Issue</h1>
 
 <?php echo $this->Form->create('Issue', ['action'=>'update']); ?>
@@ -17,7 +19,9 @@
 	</div>
 
 	<div class="form-group">
-		<?php echo $this->Form->input('assignee_id', ['type'=>'select', 'options'=>$project_member, 'selected'=>$issue['Issue']['assignee_id']]) ;?>
+		<div id="assignee-select-box">
+			<?php echo $this->Form->input('assignee_id', ['type'=>'select', 'options'=>$project_member, 'selected'=>$issue['Issue']['assignee_id']]) ;?>
+		</div>
 	</div>
 
 		<?php
