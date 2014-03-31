@@ -1,7 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('HttpSocket', 'Network/Http');
-
+App::uses('JsonConverter', 'Lib');
 class IssuesController extends AppController {
 	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment', 'Provider', 'Authentication'];
 	public $helpers = ['Workload'];
@@ -22,9 +22,7 @@ class IssuesController extends AppController {
 		$this->layout = null;
 		$response = $this->render('/Elements/Issues/list');
 		$html = $response->__toString();
-		header('Content-type: application/json');
-		print json_encode(['html' => $html, 'error'=>'']);
-		exit;
+		JsonConverter::outputJson(['html' => $html, 'error'=>'']);
 	}
 
 	public function show()
@@ -103,9 +101,7 @@ class IssuesController extends AppController {
 		$this->layout = null;
 		$response = $this->render('/Elements/Issues/list');
 		$html = $response->__toString();
-		header('Content-type: application/json');
-		print json_encode(['html' => $html, 'error'=>$error]);
-		exit;
+		JsonConverter::outputJson(['html' => $html, 'error'=>$error]);
 	}
 
 	public function reopen()
@@ -127,9 +123,7 @@ class IssuesController extends AppController {
 		$this->layout = null;
 		$response = $this->render('/Elements/Issues/list');
 		$html = $response->__toString();
-		header('Content-type: application/json');
-		print json_encode(['html' => $html, 'error'=>$error]);
-		exit;
+		JsonConverter::outputJson(['html' => $html, 'error'=>$error]);
 
 	}
 
