@@ -43,8 +43,16 @@ class IssuesController extends AppController {
 		if(count($project) === 0) throw new NotFoundException('page not found',404);
 
 		$this->set('project', $project['Project']);
-		$this->set('project_member', $this->getAssigneeList($project));
-		$this->set('isGitHub', $this->isGitHub($project));
+		$this->set('project_member', $this->__getAssigneeList($project));
+		$isGitHub = $this->__isGitHub($project);
+		if ($isGitHub)
+		{
+			$this->set('project_member', $this->__getGitHubMembers($project));
+		} else {
+			$this->set('project_member', $this->__getAssigneeList($project));
+		}
+		$this->set('isGitHub', $isGitHub);
+
 
 		$this->render('new');
 	}
@@ -56,7 +64,7 @@ class IssuesController extends AppController {
 			$saveData = $this->request->data['Issue'];
 			if (!empty($this->request->data['Issue']['github']) && $this->request->data['Issue']['github'])
 			{
-				$github = $this->createGitHubIssue($this->request->data['Issue']);
+				$github = $this->__createGitHubIssue($this->request->data['Issue']);
 				if (!empty($github))
 				{
 					$saveData = array_merge($saveData, ['info'=>$github['html_url']]);
@@ -150,8 +158,8 @@ class IssuesController extends AppController {
 		if(count($project) === 0) throw new NotFoundException('page not found',404);
 
 		$this->set('issue', $issue);
-		$this->set('project_member', $this->getAssigneeList($project));
-		$this->set('isGitHub', $this->isGitHub($project));
+		$this->set('project_member', $this->__getAssigneeList($project));
+		$this->set('isGitHub', $this->__isGitHub($project));
 	}
 
 	public function update()
@@ -161,7 +169,7 @@ class IssuesController extends AppController {
 			$saveData = $this->request->data['Issue'];
 			if (!empty($this->request->data['Issue']['github']) && $this->request->data['Issue']['github'])
 			{
-				$github = $this->createGitHubIssue($this->request->data['Issue']['github']);
+				$github = $this->__createGitHubIssue($this->request->data['Issue']['github']);
 				if (!empty($github))
 				{
 					$saveData = array_merge($saveData, ['info'=>$github['html_url']]);
@@ -181,7 +189,26 @@ class IssuesController extends AppController {
 		$this->redirect($this->referer());
 	}
 
-	private function createGitHubIssue($issue)
+	public function assignee()
+	{
+		$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->params['id']]]);
+		$github = $this->request->query['github'];
+		if (!empty($github) && $github === '1')
+		{
+			// get assignee list from github
+			$this->set('users', $this->__getGitHubMembers($project));
+		} else {
+			$this->set('users', $this->__getAssigneeList($project));
+		}
+		$this->layout = null;
+		$response = $this->render('/Elements/Issues/assignee');
+		$html = $response->__toString();
+		header('Content-type: application/json');
+		print json_encode(['html' => $html, 'error'=>'']);
+		exit;
+	}
+
+	private function __createGitHubIssue($issue)
 	{
 		$github = Configure::read('Opauth.Strategy.GitHub');
 		$sock = new HttpSocket();
@@ -220,10 +247,10 @@ class IssuesController extends AppController {
 				return json_decode($response, true);
 			}
 		}
-		return false;
+		return '';
 	}
 
-	private function getAssigneeList($project)
+	private function __getAssigneeList($project)
 	{
 		$users = $this->User->fundProjectUserName([$project]);
 		$members[] = "";
@@ -233,7 +260,42 @@ class IssuesController extends AppController {
 		return $members;
 	}
 
-	private function isGitHub($project)
+	private function __getGitHubMembers($project)
+	{
+		$sock = new HttpSocket();
+
+		// create request URI
+		$cond = ['foreign_id' => $project['Project']['id'], 'name' => 'github', 'provided_type' => 'Project'];
+		$provider = $this->Provider->find('first', ['conditions' => $cond]);
+		$uri = "https://api.github.com/repos/".$provider['Provider']['info']."/assignees";
+
+		// create a HTTP header
+		foreach ($project['Member'] as $key => $member) {
+			if ($member['is_admin']) {
+				$authentication = $this->Authentication->find('first', ['conditions' => ['user_id'=>$member['id'], 'provider'=>'github']]);
+				break;
+			}
+		}
+		if (empty($authentication)) {
+			exit;
+		}
+		$request = ['Authorization' => 'token '.$authentication['Authentication']['oauth_token']];
+
+		// send request
+		$response = $sock->get($uri, null, ['header'=>$request]);
+		if (!empty($response) && $response->code == 200)
+		{
+			$users[] = "";
+			foreach (json_decode($response, true) as $key => $user) {
+				$users[] = $user['login'];
+			}
+			return $users;
+		} else {
+			return '';
+		}
+	}
+
+	private function __isGitHub($project)
 	{
 		$cond = ['foreign_id' => $project['Project']['id'], 'name' => 'github', 'provided_type' => 'Project'];
 		$provider = $this->Provider->find('first', ['conditions' => $cond]);
