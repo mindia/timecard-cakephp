@@ -1,6 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-
+App::uses('JsonConverter', 'Lib');
 class MembersController extends AppController {
 	public $uses = ['Project', 'Member', 'User', 'Issue', 'Comment'];
 	public function beforeFilter()
@@ -71,17 +71,17 @@ class MembersController extends AppController {
 			$is_admin = $this->Member->isAdmin($this->Session->read('current_user')['User']['id'], $this->request->data['project_id']);
 			if(!$is_admin)
 			{
-				print json_encode(['status'=>'error', 'error' => 'you can not delete member']); exit;
+				JsonConverter::outputJson(['status'=>'error', 'error' => 'you can not delete member']);
 			} //throw new BadRequestException('you can not delete member', 400);
 
 			$project = $this->Project->find('first', ['conditions'=>['id'=>$this->request->data['project_id']]]);
 			if(count($project) == 0){
-				print json_encode(['status'=>'error', 'error' => 'not exists project']); exit; 
+				JsonConverter::outputJson(['status'=>'error', 'error' => 'not exists project']);
 			}//throw new BadRequestException('not exists project', 400);
 
 			$member = $this->Member->find('first', ['conditions'=>['Member.id'=>$this->params->id]]);
 			if(count($member) == 0){
-				print json_encode(['status'=>'error', 'error' => 'not exists member']); exit; 
+				JsonConverter::outputJson(['status'=>'error', 'error' => 'not exists member']);
 			}//throw new BadRequestException('not exists member', 400);
 
 			$this->Member->create();
@@ -89,11 +89,10 @@ class MembersController extends AppController {
 			{
 				$this->Session->setFlash(__('The Member has been deleted'));
 			} else {
-				print json_encode(['status'=>'error', 'error' => 'The Member could not be deleted. Please, try again.']); exit;
+				JsonConverter::outputJson(['status'=>'error', 'error' => 'The Member could not be deleted. Please, try again.']);
 			}
 
-			print json_encode(['status' => 'success']);
-			exit;
+			JsonConverter::outputJson(['status' => 'success']);
 		}
 	}
 }
