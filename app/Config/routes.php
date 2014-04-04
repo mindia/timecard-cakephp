@@ -46,6 +46,7 @@
 	Router::connect('/issues/:id/workloads/start', ['controller' => 'workloads', 'action' => 'start'], ['id' => '[0-9]+']);
 	Router::connect('/issues/:id/workloads/stop', ['controller' => 'workloads', 'action' => 'stop'], ['id' => '[0-9]+']);
 	Router::connect('/issues/:id/edit', ['controller' => 'issues', 'action' => 'edit'], ['id' => '[0-9]+']);
+	Router::connect('/issues/:id/assignee', ['controller' => 'issues', 'action' => 'assignee'], ['id' => '[0-9]+']);
 
 	Router::connect('/members/:id/delete', ['controller' => 'members', 'action' => 'del'], ['id' => '[0-9]+']);
 
