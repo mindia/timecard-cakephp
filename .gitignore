@@ -1,8 +1,10 @@
 /app/tmp/*
 /app/Config/local.php
+/app/Config/omniauth.yml
 .pearrc
 .DS_Store
 /cake/console/templates/skel/tmp/cache/persistent
 cron/postfix_maillog/
 *.swp
 lib/Cake/Console/Templates/skel/tmp/*
+bin/timecard_sass/.sass-cache/

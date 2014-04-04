@@ -25,9 +25,9 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript" ></script>
 	<?php
 		echo $this->Html->meta('icon');
+		echo $this->Html->css('compiled/application');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('bootstrap-theme.min');
-		echo $this->Html->css('main');
 		echo $this->Html->script('bootstrap.min');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

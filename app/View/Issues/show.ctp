@@ -3,6 +3,7 @@
 		<div class="issue">
 		  <div class="issue-author text-muted">
 		    <b><?php echo $issue['Author']['name'] ?></b> opened this issue <?php echo $this->App->timeAgo($issue['Issue']['created_at']) ?>
+		    <?php echo $this->Html->link('Edit', '/issues/'.$issue['Issue']['id'].'/edit', ['class'=>'btn btn-sm btn-default pull-right']) ?>
 		  </div>
 		  <div class="issue-subject">
 		    <h2 style="margin:0">
@@ -70,16 +71,40 @@
 			<?php endforeach ?>
 		</ul>
 
-	<?php if ($this->App->is_member($current_user['User'], $project_member['Member']) &&  $issue['Project']['status'] == Configure::read('STATUS_ACTIVE')): ?>
-	  <?php echo $this->Form->create('Comment', ['url'=>'/issues/'.$issue['Issue']['id'].'/comment']); ?>
-	    <div class="form-group">
-	      <?php echo $this->Form->input('body', ['type'=>'textarea', 'class'=>'form-control', 'placeholder'=>'Leave a comment', 'label'=>false]);?>
-	    </div>
-	    <div class="actions pull-right">
-	      <input class="btn btn-success" type="submit" value="Comment" name="commit"></input>
-	    </div>
-	  </div>
-	<?php endif?>
+		<?php if ($this->App->is_member($current_user['User'], $project_member['Member']) &&  $issue['Project']['status'] == Configure::read('STATUS_ACTIVE')): ?>
+		<?php echo $this->Form->create('Comment', ['url'=>'/issues/'.$issue['Issue']['id'].'/comment']); ?>
+			<div class="form-group">
+				<?php echo $this->Form->input('body', ['type'=>'textarea', 'class'=>'form-control', 'placeholder'=>'Leave a comment', 'label'=>false]);?>
+			</div>
+			<div class="actions pull-right">
+				<input class="btn btn-success" type="submit" value="Comment" name="commit"></input>
+			</div>
+		</form>
+		<?php endif?>
+	</div>
+
+	<div class="col-lg-6">
+		<div class="section">
+			<h3>Workloads</h3>
+			<ul class="media-list">
+				<?php foreach($issue['Workload'] as $workload):?>
+				<?php if(is_null($workload['end_at'])):?><?php continue; ?><?php endif ?>
+				<li class="media">
+					<div class="workload">
+						<a href="/users/<?php echo $workload['user_id'] ?>">kkrrjp</a>
+						<br>
+						WorkTime <?php echo $this->Workload->progressTime($workload['start_at'], $workload['end_at']); ?>
+						<br>
+						Start At: <?php echo $workload['start_at'] ?> / End At: <?php echo $workload['end_at'] ?>
+						<div class="actions">
+							<a class="btn btn-default" href="/workloads/<?php echo $workload['id'] ?>/edit">Edit</a>
+							<a class="btn btn-danger" data-confirm="Are you sure?" data-method="delete" href="/workloads/<?php echo $workload['id'] ?>" rel="nofollow">Destroy</a>
+						</div>
+					</div>
+				</li>
+				<?php endforeach ?>
+			</ul>
+		</div>
 	</div>
 </div>
 <?php //todo comment & workload display?>

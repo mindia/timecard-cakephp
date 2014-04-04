@@ -11,6 +11,7 @@ class UsersController extends AppController {
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
+		$this->set('isSideMenu', false);
 		$this->Auth->allow('show', 'signUp', 'signIn', 'signOut', 'password', 'opauthComplete');
 	}
 

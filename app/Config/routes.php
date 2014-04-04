@@ -26,38 +26,39 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'main'));
+	Router::connect('/', ['controller' => 'pages', 'action' => 'main']);
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+	Router::connect('/pages/*', ['controller' => 'pages', 'action' => 'display']);
 
-	Router::connect('/projects/new', array('controller' => 'projects', 'action' => 'registration'));
-	Router::connect('/projects/:id', array('controller' => 'projects', 'action' => 'show'), array('id' => '[0-9]+'));
-	Router::connect('/projects/:id/edit', array('controller' => 'projects', 'action' => 'edit'), array('id' => '[0-9]+'));
+	Router::connect('/projects/new', ['controller' => 'projects', 'action' => 'registration']);
+	Router::connect('/projects/:id', ['controller' => 'projects', 'action' => 'show'], ['id' => '[0-9]+']);
+	Router::connect('/projects/:id/edit', ['controller' => 'projects', 'action' => 'edit'], ['id' => '[0-9]+']);
 
-	Router::connect('/projects/:id/issues/new', array('controller' => 'issues', 'action' => 'registration'), array('id' => '[0-9]+'));
-	Router::connect('/projects/:id/issues/create', array('controller' => 'issues', 'action' => 'create'), array('id' => '[0-9]+'));
-	Router::connect('/projects/:id/members', array('controller' => 'members', 'action' => 'index'), array('id' => '[0-9]+'));
-	Router::connect('/issues/:id', array('controller' => 'issues', 'action' => 'show'), array('id' => '[0-9]+'));
-	Router::connect('/issues/:id/comment', array('controller' => 'comments', 'action' => 'create'), array('id' => '[0-9]+'));
-	Router::connect('/issues/:id/close.json', array('controller' => 'issues', 'action' => 'close'), array('id' => '[0-9]+'));
-	Router::connect('/issues/:id/reopen.json', array('controller' => 'issues', 'action' => 'reopen'), array('id' => '[0-9]+'));
-	Router::connect('/issues/:id/workloads/start', array('controller' => 'workloads', 'action' => 'start'), array('id' => '[0-9]+'));
-	Router::connect('/issues/:id/workloads/stop', array('controller' => 'workloads', 'action' => 'stop'), array('id' => '[0-9]+'));
+	Router::connect('/projects/:id/issues/new', ['controller' => 'issues', 'action' => 'registration'], ['id' => '[0-9]+']);
+	Router::connect('/projects/:id/issues/create', ['controller' => 'issues', 'action' => 'create'], ['id' => '[0-9]+']);
+	Router::connect('/projects/:id/members', ['controller' => 'members', 'action' => 'index'], ['id' => '[0-9]+']);
+	Router::connect('/issues/:id', ['controller' => 'issues', 'action' => 'show'], ['id' => '[0-9]+']);
+	Router::connect('/issues/:id/comment', ['controller' => 'comments', 'action' => 'create'], ['id' => '[0-9]+']);
+	Router::connect('/issues/:id/close.json', ['controller' => 'issues', 'action' => 'close'], ['id' => '[0-9]+']);
+	Router::connect('/issues/:id/reopen.json', ['controller' => 'issues', 'action' => 'reopen'], ['id' => '[0-9]+']);
+	Router::connect('/issues/:id/workloads/start', ['controller' => 'workloads', 'action' => 'start'], ['id' => '[0-9]+']);
+	Router::connect('/issues/:id/workloads/stop', ['controller' => 'workloads', 'action' => 'stop'], ['id' => '[0-9]+']);
+	Router::connect('/issues/:id/edit', ['controller' => 'issues', 'action' => 'edit'], ['id' => '[0-9]+']);
 
-	Router::connect('/members/:id/delete', array('controller' => 'members', 'action' => 'del'), array('id' => '[0-9]+'));
+	Router::connect('/members/:id/delete', ['controller' => 'members', 'action' => 'del'], ['id' => '[0-9]+']);
 
-	Router::connect('/users/sign_up', array('controller' => 'users', 'action' => 'signUp'));
-	Router::connect('/users/sign_in', array('controller' => 'users', 'action' => 'signIn'));
-	Router::connect('/users/sign_out', array('controller' => 'users', 'action' => 'signOut'));
-	Router::connect('/users/:id', array('controller' => 'users', 'action' => 'show'), array('id' => '[0-9]+'));
-	Router::connect('/opauth-complete/*', array('controller' => 'users', 'action' => 'opauthComplete'));
+	Router::connect('/users/sign_up', ['controller' => 'users', 'action' => 'signUp']);
+	Router::connect('/users/sign_in', ['controller' => 'users', 'action' => 'signIn']);
+	Router::connect('/users/sign_out', ['controller' => 'users', 'action' => 'signOut']);
+	Router::connect('/users/:id', ['controller' => 'users', 'action' => 'show'], ['id' => '[0-9]+']);
+	Router::connect('/opauth-complete/*', ['controller' => 'users', 'action' => 'opauthComplete']);
 
-	Router::connect('/dashboard', array('controller' => 'dashboards', 'action' => 'show'));
+	Router::connect('/dashboard', ['controller' => 'dashboards', 'action' => 'show']);
 
-	Router::connect('/users/:user_id/workloads/:year/:month/:day', array('controller' => 'workloads', 'action' => 'index'), 
-		array('user_id' => '[0-9]+','year' => '[0-9]+','month' => '[0-9]+','day' => '[0-9]+',));
+	Router::connect('/users/:user_id/workloads/:year/:month/:day', ['controller' => 'workloads', 'action' => 'index'],
+		['user_id' => '[0-9]+','year' => '[0-9]+','month' => '[0-9]+','day' => '[0-9]+',]);
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on

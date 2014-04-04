@@ -89,5 +89,7 @@ class PagesController extends AppController {
 			$this->set('projects', $projects);
 			$this->render('main_login');
 		}
+
+		$this->set('isSideMenu', false);
 	}
 }

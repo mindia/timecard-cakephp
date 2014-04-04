@@ -1,0 +1,27 @@
+body {
+  -webkit-text-size-adjust: 100%;
+}
+
+a.btn-black {
+  background-color: #777777;
+  color: #ffffff;
+}
+
+a.btn-black:hover {
+  background-color: #555555;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+div.table-responsive {
+  border: none;
+}
+
+#workers {
+  margin: 0 0 20px 0;
+  tr td {
+    font-size: 16px;
+    border-top: none;
+    border-bottom: 1px solid #dddddd;
+  }
+}

@@ -13,3 +13,9 @@ if(file_exists(dirname(__FILE__) . DS . 'omniauth.yml')){
 				));
 	}
 }
+
+App::build([
+	'Lib' => [
+		APP . 'Lib' . DS . 'Converter' . DS,
+	],
+],App::APPEND);
