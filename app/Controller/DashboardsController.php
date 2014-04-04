@@ -28,4 +28,8 @@ class DashboardsController extends AppController {
 		$this->set('current_user_id', $current_user_id);
 		$this->set('current_user_name', $this->Session->read('current_user')['User']['name']);
 	}
+
+	public function realtime(){
+		
+	}
 }

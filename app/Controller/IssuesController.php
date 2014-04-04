@@ -252,7 +252,7 @@ class IssuesController extends AppController {
 
 	private function __getAssigneeList($project)
 	{
-		$users = $this->User->fundProjectUserName([$project]);
+		$users = $this->User->findProjectUserName([$project]);
 		$members[] = "";
 		foreach ($project['Member'] as $key => $member){
 			$members[$member['user_id']] = $users[$member['user_id']];

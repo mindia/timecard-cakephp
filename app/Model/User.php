@@ -82,7 +82,7 @@ class User extends AppModel {
 		if($this->data[$this->alias]['encrypted_password'] === $data['password_confirmation']) return true;
 		return false;
 	}
-    public function fundProjectUserName($projects)
+    public function findProjectUserName($projects)
     {
        if(count($projects) === 0) return [];
        $user_ids = [];
@@ -94,6 +94,20 @@ class User extends AppModel {
        }
        $this->unbindModel(['hasMany'=>['Member']], false);
        $users = $this->find('list', ['conditions'=> ['id'=> $user_ids], 'fields'=>['name'] ]);
+       return $users;
+    }
+    public function findProjectUserEmail($projects)
+    {
+       if(count($projects) === 0) return [];
+       $user_ids = [];
+       foreach($projects as $project)
+       {
+            foreach ($project['Member'] as $member) {
+              $user_ids[$member['user_id']] = $member['user_id'];
+            }
+       }
+       $this->unbindModel(['hasMany'=>['Member']], false);
+       $users = $this->find('list', ['conditions'=> ['id'=> $user_ids], 'fields'=>['email'] ]);
        return $users;
     }
 /*

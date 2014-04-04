@@ -19,7 +19,8 @@ class ProjectsController extends AppController {
 		$projects = array_merge((array)$public_projects, (array)$my_private_projects);
 
 		$this->set("projects", $projects);
-		$this->set('project_users', $this->User->fundProjectUserName($projects));
+		$this->set('project_users', $this->User->findProjectUserName($projects));
+		$this->set('project_users_email', $this->User->findProjectUserEmail($projects));
 	}
 
 	public function show()

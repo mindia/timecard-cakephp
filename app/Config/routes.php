@@ -58,6 +58,7 @@
 	Router::connect('/opauth-complete/*', array('controller' => 'users', 'action' => 'opauthComplete'));
 
 	Router::connect('/dashboard', array('controller' => 'dashboards', 'action' => 'show'));
+	Router::connect('/dashboard/realtime', array('controller' => 'dashboards', 'action' => 'realtime'));
 
 	Router::connect('/users/:user_id/workloads/:year/:month/:day', array('controller' => 'workloads', 'action' => 'index'),
 		array('user_id' => '[0-9]+','year' => '[0-9]+','month' => '[0-9]+','day' => '[0-9]+',));
