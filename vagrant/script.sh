@@ -19,7 +19,8 @@ yum -y install ntp
 #
 # php
 #
-yum -y install php54 php54-cli php54-pdo php54-mbstring php54-mcrypt php54-pecl-memcache php54-mysql php54-devel php54-common php54-pgsql php54-pear php54-gd php54-xml php54-pecl-xdebug php54-pecl-apc
+rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+yum -y install --enablerepo=remi --enablerepo=remi-php55 php php-cli php-pdo php-mbstring php-mcrypt php-pecl-memcache php-mysql php-devel php-common php-pgsql php-pear php-gd php-xml php-pecl-xdebug php-pecl-apc
 touch /var/log/php.log && chmod 666 /var/log/php.log
 cp -a /vagrant/php.ini /etc/php.ini
 #
