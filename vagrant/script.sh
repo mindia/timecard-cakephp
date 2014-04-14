@@ -59,14 +59,20 @@ if [ -f /share/composer.json ]; then
   cd /share && curl -s http://getcomposer.org/installer | php
   /usr/bin/php /share/composer.phar install
 fi
-#cp -a /share/app/Config/database.php.default /share/app/Config/database.php
-#cp -a /share/app/Config/bootstrap.php.default /share/app/Config/bootstrap.php
-#cp -a /share/app/Config/email.php.default /share/app/Config/email.php
+cp -a /share/app/Config/database.php.default /share/app/Config/database.php
+cp -a /share/app/Config/bootstrap.php.default /share/app/Config/bootstrap.php
+cp -a /share/app/Config/email.php.default /share/app/Config/email.php
 
 #
 # MySQL
 #
-yum -y update
-yum -y install mysql-devel mysql mysql-server 
-yum -y install php-pdo
+yum -y install http://repo.mysql.com/mysql-community-release-el6-4.noarch.rpm
+yum -y install mysql-community-server
+#cp -a /vagrant/my.conf /etc/my.conf
+/sbin/service mysqld restart
+/sbin/chkconfig mysqld on
+
+mysql -u root -e "create database timecard_dev default charset utf8"
+mysql -u root -e "create database timecard_test default charset utf8"
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'timecard'@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 
