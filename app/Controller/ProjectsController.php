@@ -30,7 +30,7 @@ class ProjectsController extends AppController {
 		$comments = $this->Issue->Comment->find('all' ,['conditions'=>['Issue.id'=>array_map(function($val){return $val['Issue']['id'];}, $issues)], 'order'=>'Comment.created_at desc'] );
 		$workloads = $this->Issue->Workload->find('all' ,
 			[
-				'conditions'=>['Issue.id'=>array_map(function($val){return $val['Issue']['id'];}, $issues)], 
+				'conditions'=>['Issue.id'=>array_map(function($val){return $val['Issue']['id'];}, $issues)],
 				'order'=>'Workload.created_at desc',
 				'limit' => 5
 			]);
@@ -82,13 +82,13 @@ class ProjectsController extends AppController {
 		if ($this->request->is('post'))
 		{
 			#github / ruffnote full_name save
-			if ($this->addGithub($this->request->data['Project']['github_full_name'], $this->request->data['Project']['id']) != true)
+			if ($this->__addGithub($this->request->data['Project']['github_full_name'], $this->request->data['Project']['id']) != true)
 			{
 				$this->Session->setFlash(__('The project could not be saved. Please, try again.'), 'default', ['class' => 'alert alert-danger']);
 				return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
 			}
 			unset($this->request->data['Project']['github_full_name']);
-			if ($this->addRuffnote($this->request->data['Project']['ruffnote_full_name'], $this->request->data['Project']['id']) != true )
+			if ($this->__addRuffnote($this->request->data['Project']['ruffnote_full_name'], $this->request->data['Project']['id']) != true )
 			{
 				$this->Session->setFlash(__('The project could not be saved. Please, try again.'), 'default', ['class' => 'alert alert-danger']);
 				return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
@@ -104,7 +104,7 @@ class ProjectsController extends AppController {
 		return $this->redirect('/projects/' . $this->request->data['Project']['id'] . '/edit');
 	}
 
-	private function addGithub($fullName, $foreign_id)
+	private function __addGithub($fullName, $foreign_id)
 	{
 		$provider = $this->Provider->find('first', ['conditions' => ['name' => 'github', 'foreign_id' => $foreign_id, 'provided_type' => 'Project']] );
 		if ( $provider == false )
@@ -136,7 +136,7 @@ class ProjectsController extends AppController {
 	}
 
 
-	private function addRuffnote( $fullName, $foreign_id )
+	private function __addRuffnote( $fullName, $foreign_id )
 	{
 
 		$provider = $this->Provider->find('first', ['conditions' => ['name' => 'ruffnote', 'foreign_id' => $foreign_id, 'provided_type' => 'Project']] );
