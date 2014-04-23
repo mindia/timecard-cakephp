@@ -197,9 +197,7 @@ class IssuesController extends AppController {
 		$this->layout = null;
 		$response = $this->render('/Elements/Issues/assignee');
 		$html = $response->__toString();
-		header('Content-type: application/json');
-		print json_encode(['html' => $html, 'error'=>'']);
-		exit;
+		JsonConverter::outputJson(['html' => $html, 'error'=>'']);
 	}
 
 	private function __createGitHubIssue($issue)
