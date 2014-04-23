@@ -19,7 +19,8 @@ yum -y install ntp
 #
 # php
 #
-yum -y install php54 php54-cli php54-pdo php54-mbstring php54-mcrypt php54-pecl-memcache php54-mysql php54-devel php54-common php54-pgsql php54-pear php54-gd php54-xml php54-pecl-xdebug php54-pecl-apc
+rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+yum -y install --enablerepo=remi --enablerepo=remi-php55 php php-cli php-pdo php-mbstring php-mcrypt php-pecl-memcache php-mysql php-devel php-common php-pgsql php-pear php-gd php-xml php-pecl-xdebug php-pecl-apc
 touch /var/log/php.log && chmod 666 /var/log/php.log
 cp -a /vagrant/php.ini /etc/php.ini
 #
@@ -58,14 +59,20 @@ if [ -f /share/composer.json ]; then
   cd /share && curl -s http://getcomposer.org/installer | php
   /usr/bin/php /share/composer.phar install
 fi
-#cp -a /share/app/Config/database.php.default /share/app/Config/database.php
-#cp -a /share/app/Config/bootstrap.php.default /share/app/Config/bootstrap.php
-#cp -a /share/app/Config/email.php.default /share/app/Config/email.php
+cp -a /share/app/Config/database.php.default /share/app/Config/database.php
+cp -a /share/app/Config/bootstrap.php.default /share/app/Config/bootstrap.php
+cp -a /share/app/Config/email.php.default /share/app/Config/email.php
 
 #
 # MySQL
 #
-yum -y update
-yum -y install mysql-devel mysql mysql-server 
-yum -y install php-pdo
+yum -y install http://repo.mysql.com/mysql-community-release-el6-4.noarch.rpm
+yum -y install mysql-community-server
+#cp -a /vagrant/my.conf /etc/my.conf
+/sbin/service mysqld restart
+/sbin/chkconfig mysqld on
+
+mysql -u root -e "create database timecard_dev default charset utf8"
+mysql -u root -e "create database timecard_test default charset utf8"
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'timecard'@'localhost' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 
